@@ -3,16 +3,65 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zupreme Restaurant Admin</title>
     <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="assets/styles/styles.css" />
-    <script src="assets/js/main.js" defer></script>
+    <link rel="stylesheet" href="assets/styles/global.css" />
+    <link rel="stylesheet" href="assets/styles/login.css" />
+    <title>Zuprême Admin – Logga in</title>
   </head>
+
   <body>
-    <header></header>
-    <main>
-      <h1>Zupreme Restaurant Admin</h1>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <img src="assets/images/logo.svg" width="30" height="30" alt="" />
+        <span class="site-name">Zuprême</span>
+      </a>
+    </header>
+
+    <main class="login-form">
+      <section class="login-section" aria-labelledby="login-title">
+        <h1 id="login-title">Inloggning för administratörer</h1>
+        <h2 class="form-heading">
+          <span class="icon login"></span>
+          Logga in
+        </h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">E-post</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="username"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Lösenord</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="index-button">Logga in</button>
+        </form>
+      </section>
     </main>
-    <footer></footer>
+
+    <footer class="site-footer">
+      <h2 class="sr-only">Varumärke</h2>
+      <a class="brand" href="/">
+        <img src="assets/images/logo.svg" width="25" height="25" alt="" />
+        <span class="site-name">Zuprême</span>
+      </a>
+      <h2 class="sr-only">Juridisk information</h2>
+      <p class="footer-copy">
+        © 2026 Zuprême Admin. Alla rättigheter förbehållna.
+      </p>
+    </footer>
   </body>
 </html>

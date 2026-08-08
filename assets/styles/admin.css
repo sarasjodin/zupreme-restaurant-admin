@@ -1,0 +1,358 @@
+/* ==========================================================
+   ADMIN NAVIGATION
+   ========================================================== */
+
+.admin-tabs {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  padding: 0;
+}
+
+/* Active tab */
+.admin-tabs button[aria-selected='true'] {
+  color: var(--text);
+  background: var(--surface);
+  border-color: var(--gold);
+}
+
+.admin-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+#logout-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ==========================================================
+   ADMIN CARDS
+   ========================================================== */
+.admin-card {
+  width: clamp(900px, 78vw, 1200px);
+  margin: 1rem auto;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  display: grid;
+  gap: 2rem;
+  max-height: 65vh;
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 30px 80px var(--shadow);
+}
+
+/* ==========================================================
+   ADMIN TYPOGRAPHY
+   ========================================================== */
+
+.admin-card h2 {
+  font-size: 1.5rem;
+}
+
+#admin-title {
+  padding-bottom: 1rem;
+}
+
+#admin-title + p {
+  padding-bottom: 1rem;
+}
+
+/* ==========================================================
+   TABLE ICONS
+   ========================================================== */
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* ==========================================================
+   TABLES
+   ========================================================== */
+
+/* Tunna linjer mellan raderna */
+.admin-table tbody td {
+  border-top: 1px solid var(--border);
+}
+
+/* Guldlinje över tabellen */
+.admin-table thead tr {
+  border-top: 1px solid var(--gold);
+}
+
+/* Tjockare linje längst ned */
+.admin-table tbody tr:last-child td {
+  border-bottom: 2px solid var(--border);
+}
+
+/* Randiga rader */
+.admin-table tbody tr:nth-child(even) {
+  background: transparent;
+}
+
+.admin-table tbody tr:nth-child(odd) {
+  background: color-mix(in srgb, var(--gold) 10%, transparent);
+}
+
+/* ==========================================================
+   USERS TABLE
+   ========================================================== */
+
+.users th:first-child,
+.users td:first-child {
+  width: 35%;
+  text-align: left;
+}
+
+.users th:nth-child(2),
+.users td:nth-child(2),
+.users th:nth-child(3),
+.users td:nth-child(3) {
+  text-align: left;
+}
+
+.users th:nth-child(4),
+.users td:nth-child(4) {
+  text-align: center;
+}
+
+/* ==========================================================
+   MENU TABLE
+   ========================================================== */
+.menu th:first-child {
+  padding-left: 5.1rem;
+}
+
+.menu th:first-child,
+.menu td:first-child {
+  width: 45%;
+  text-align: left;
+}
+
+.menu th:nth-child(2),
+.menu td:nth-child(2),
+.menu th:nth-child(3),
+.menu td:nth-child(3),
+.menu th:nth-child(4),
+.menu td:nth-child(4),
+.menu th:nth-child(5),
+.menu td:nth-child(5),
+.menu th:nth-child(6),
+.menu td:nth-child(6) {
+  min-width: 10%;
+  white-space: nowrap;
+}
+
+.menu th:nth-child(2),
+.menu td:nth-child(2),
+.menu th:nth-child(3),
+.menu td:nth-child(3) {
+  min-width: 15%;
+  text-align: left;
+}
+
+.menu th:nth-child(4),
+.menu td:nth-child(4) {
+  text-align: left;
+}
+
+.menu th:nth-child(5),
+.menu td:nth-child(5),
+.menu th:nth-child(6),
+.menu td:nth-child(6) {
+  text-align: center;
+}
+
+/* ==========================================================
+   MESSAGES TABLE
+   ========================================================== */
+
+.messages th:nth-child(1),
+.messages td:nth-child(1),
+.messages th:nth-child(2),
+.messages td:nth-child(2) {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.messages th:nth-child(3),
+.messages td:nth-child(3) {
+  width: 40%;
+  padding-left: 4rem;
+  text-align: left;
+}
+
+.messages th:nth-child(4),
+.messages td:nth-child(4) {
+  width: 20%;
+  text-align: left;
+}
+
+.messages th:nth-child(5),
+.messages td:nth-child(5) {
+  width: 35%;
+  text-align: left;
+}
+
+.messages th,
+.messages td,
+.users th,
+.users td {
+  padding-block: 1rem;
+}
+
+/* ==========================================================
+   ACTION BUTTONS
+   ========================================================== */
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.actions button.cancel {
+  color: var(--danger);
+}
+
+.actions button:hover {
+  background: color-mix(in srgb, var(--gold) 30%, transparent);
+}
+
+.actions button.cancel:hover {
+  background: color-mix(in srgb, var(--danger) 25%, transparent);
+}
+
+.actions button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.actions button img {
+  width: 24px;
+  height: 24px;
+}
+
+/* ==========================================================
+   ROLE
+   ========================================================== */
+
+.role {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ==========================================================
+   TOGGLE
+   ========================================================== */
+
+.toggle {
+  position: relative;
+  display: inline-block;
+
+  width: 44px;
+  height: 24px;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  border: 2px solid var(--text);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.slider::before {
+  content: '';
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  background: var(--text);
+  border-radius: 50%;
+  transition: 0.2s ease;
+}
+
+/* På */
+
+.toggle input:checked + .slider {
+  border-color: var(--gold);
+}
+
+.toggle input:checked + .slider::before {
+  transform: translateX(20px);
+  background: var(--gold);
+}
+
+/* Hover */
+
+.toggle:hover .slider {
+  background: color-mix(in srgb, var(--gold) 8%, transparent);
+}
+
+/* Fokus */
+
+.toggle input:focus-visible + .slider {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ==========================================================
+   DISH / MENU ITEM
+   ========================================================== */
+
+.dish {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dish img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+.dish-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dish-name {
+  font-weight: 600;
+}
+
+.dish-ingredients {
+  font-size: 0.9rem;
+  color: var(--muted);
+}

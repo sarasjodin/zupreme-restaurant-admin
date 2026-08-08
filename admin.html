@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zupreme Restaurant Administrationsvy</title>
+    <link rel="icon" href="favicon.ico" />
+    <link rel="stylesheet" href="assets/styles/global.css" />
+    <link rel="stylesheet" href="assets/styles/admin.css" />
+    <script src="assets/js/admin.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="/">
+        <img src="assets/images/logo.svg" width="30" height="30" alt="" />
+        <span class="site-name">Zuprême</span>
+      </a>
+
+      <nav class="admin-nav" aria-label="Administrationsvy">
+        <div class="admin-tabs" role="tablist" aria-label="Administrationsvyer">
+          <button
+            id="tab-menu"
+            role="tab"
+            aria-selected="true"
+            aria-controls="panel-menu"
+            type="button"
+          >
+            Meny
+          </button>
+
+          <button
+            id="tab-messages"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-messages"
+            type="button"
+          >
+            Meddelanden
+          </button>
+
+          <button
+            id="tab-users"
+            role="tab"
+            aria-selected="false"
+            aria-controls="panel-users"
+            type="button"
+          >
+            Användare
+          </button>
+        </div>
+
+        <ul id="logout-menu" class="nav-menu">
+          <li>
+            <button type="button" id="logout-button">
+              <span class="icon exit" aria-hidden="true"></span>
+              Logga ut
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main class="admin-dashboard">
+      <h1 id="admin-title">Administrationsvy</h1>
+      <p>Hantera meny, meddelanden och (eventuellt) användare.</p>
+      <section
+        class="admin-card"
+        id="panel-messages"
+        role="tabpanel"
+        aria-labelledby="tab-messages"
+        hidden
+      >
+        <h2 class="admin-header">Meddelanden</h2>
+        <table class="admin-table messages">
+          <thead>
+            <tr>
+              <th>Datum</th>
+              <th>Tid</th>
+              <th>Avsändare</th>
+              <th>Ämne</th>
+              <th>Förhandsvisning</th>
+              <th>Status</th>
+              <th>Åtgärder</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>2026-06-30</td>
+              <td>14:34</td>
+              <td>Anna Karlsson</td>
+              <td>Middag</td>
+              <td>Hej, vill bara påminna om vår bokning imorgon.</td>
+              <td>Oläst</td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Öppna">
+                    <span class="icon visibility" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Markera som läst">
+                    <span class="icon email-read" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-06-30</td>
+              <td>14:34</td>
+              <td>Malin Svensson</td>
+              <td>Allergier</td>
+              <td>
+                Hej! Jag undrar om ni kan anpassa menyn för personer med
+                nötallergi?
+              </td>
+              <td>Läst</td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Öppna">
+                    <span class="icon visibility" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Markera som läst">
+                    <span class="icon email-read" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-06-30</td>
+              <td>14:34</td>
+              <td>Sven Andersson</td>
+              <td>Mat</td>
+              <td>
+                Hej, jag undrar om ni kan anpassa menyn för personer med
+                glutenintolerans?
+              </td>
+              <td>Avvisat</td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Öppna">
+                    <span class="icon visibility" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Markera som läst">
+                    <span class="icon email-read" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-06-30</td>
+              <td>14:34</td>
+              <td>Peter Johansson</td>
+              <td>Lunch</td>
+              <td>
+                Hej, jag undrar om ni kan anpassa menyn för personer med
+                laktosintolerans?
+              </td>
+              <td>Besvarat</td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Öppna">
+                    <span class="icon visibility" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Markera som läst">
+                    <span class="icon email-read" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-06-30</td>
+              <td>14:34</td>
+              <td>Anna Karlsson</td>
+              <td>Middag</td>
+              <td>Hej, vill bara påminna om vår bokning imorgon.</td>
+              <td>Oläst</td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Öppna">
+                    <span class="icon visibility" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Markera som läst">
+                    <span class="icon email-read" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-06-30</td>
+              <td>14:34</td>
+              <td>Malin Svensson</td>
+              <td>Allergier</td>
+              <td>
+                Hej! Jag undrar om ni kan anpassa menyn för personer med
+                nötallergi?
+              </td>
+              <td>Läst</td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Öppna">
+                    <span class="icon visibility" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Markera som läst">
+                    <span class="icon email-read" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-06-30</td>
+              <td>14:34</td>
+              <td>Sven Andersson</td>
+              <td>Mat</td>
+              <td>
+                Hej, jag undrar om ni kan anpassa menyn för personer med
+                glutenintolerans?
+              </td>
+              <td>Avvisat</td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Öppna">
+                    <span class="icon visibility" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Markera som läst">
+                    <span class="icon email-read" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>2026-06-30</td>
+              <td>14:34</td>
+              <td>Peter Johansson</td>
+              <td>Lunch</td>
+              <td>
+                Hej, jag undrar om ni kan anpassa menyn för personer med
+                laktosintolerans?
+              </td>
+              <td>Besvarat</td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Öppna">
+                    <span class="icon visibility" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" aria-label="Markera som läst">
+                    <span class="icon email-read" aria-hidden="true"></span>
+                  </button>
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section
+        class="admin-card"
+        id="panel-menu"
+        role="tabpanel"
+        aria-labelledby="tab-menu"
+      >
+        <h2 class="admin-header">Meny</h2>
+        <table class="admin-table menu">
+          <thead>
+            <tr>
+              <th>Artikel</th>
+              <th>Kategori</th>
+              <th>Servering</th>
+              <th>Pris</th>
+              <th>Aktiv</th>
+              <th>Åtgärder</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div class="dish">
+                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+
+                  <div class="dish-content">
+                    <span class="dish-name">Toast Skagen</span>
+                    <span class="dish-ingredients">
+                      Räkor, majonnäs, dill, citron
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>Förrätt</td>
+              <td>Portion</td>
+              <td>149 kr</td>
+
+              <td>
+                <label class="toggle">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera Toast Skagen">
+                    <span class="icon edit" aria-hidden="true"></span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cancel"
+                    aria-label="Ta bort Toast Skagen"
+                  >
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="dish">
+                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+
+                  <div class="dish-content">
+                    <span class="dish-name">Oxfilé</span>
+                    <span class="dish-ingredients">
+                      Potatispuré, rödvinssås
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>Huvudrätt</td>
+              <td>Portion</td>
+              <td>329 kr</td>
+
+              <td>
+                <label class="toggle">
+                  <input type="checkbox" checked />
+                  <span class="slider"></span>
+                </label>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera Oxfilé">
+                    <span class="icon edit" aria-hidden="true"></span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cancel"
+                    aria-label="Ta bort Oxfilé"
+                  >
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="dish">
+                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+
+                  <div class="dish-content">
+                    <span class="dish-name">Crème brûlée</span>
+                    <span class="dish-ingredients">
+                      Vanilj, grädde, karamelliserat socker
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>Efterrätt</td>
+              <td>Portion</td>
+              <td>119 kr</td>
+
+              <td>
+                <label class="toggle">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera Crème brûlée">
+                    <span class="icon edit" aria-hidden="true"></span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cancel"
+                    aria-label="Ta bort Crème brûlée"
+                  >
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="dish">
+                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+
+                  <div class="dish-content">
+                    <span class="dish-name">Crème brûlée</span>
+                    <span class="dish-ingredients">
+                      Vanilj, grädde, karamelliserat socker
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>Efterrätt</td>
+              <td>Portion</td>
+              <td>119 kr</td>
+
+              <td>
+                <label class="toggle">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera Crème brûlée">
+                    <span class="icon edit" aria-hidden="true"></span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cancel"
+                    aria-label="Ta bort Crème brûlée"
+                  >
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="dish">
+                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+
+                  <div class="dish-content">
+                    <span class="dish-name">Crème brûlée</span>
+                    <span class="dish-ingredients">
+                      Vanilj, grädde, karamelliserat socker
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>Efterrätt</td>
+              <td>Portion</td>
+              <td>119 kr</td>
+
+              <td>
+                <label class="toggle">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera Crème brûlée">
+                    <span class="icon edit" aria-hidden="true"></span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cancel"
+                    aria-label="Ta bort Crème brûlée"
+                  >
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="dish">
+                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+
+                  <div class="dish-content">
+                    <span class="dish-name">Crème brûlée</span>
+                    <span class="dish-ingredients">
+                      Vanilj, grädde, karamelliserat socker
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>Efterrätt</td>
+              <td>Portion</td>
+              <td>119 kr</td>
+
+              <td>
+                <label class="toggle">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera Crème brûlée">
+                    <span class="icon edit" aria-hidden="true"></span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cancel"
+                    aria-label="Ta bort Crème brûlée"
+                  >
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="dish">
+                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+
+                  <div class="dish-content">
+                    <span class="dish-name">Crème brûlée</span>
+                    <span class="dish-ingredients">
+                      Vanilj, grädde, karamelliserat socker
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>Efterrätt</td>
+              <td>Portion</td>
+              <td>119 kr</td>
+
+              <td>
+                <label class="toggle">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera Crème brûlée">
+                    <span class="icon edit" aria-hidden="true"></span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cancel"
+                    aria-label="Ta bort Crème brûlée"
+                  >
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="dish">
+                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+
+                  <div class="dish-content">
+                    <span class="dish-name">Crème brûlée</span>
+                    <span class="dish-ingredients">
+                      Vanilj, grädde, karamelliserat socker
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>Efterrätt</td>
+              <td>Portion</td>
+              <td>119 kr</td>
+
+              <td>
+                <label class="toggle">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera Crème brûlée">
+                    <span class="icon edit" aria-hidden="true"></span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cancel"
+                    aria-label="Ta bort Crème brûlée"
+                  >
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="dish">
+                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+
+                  <div class="dish-content">
+                    <span class="dish-name">Crème brûlée</span>
+                    <span class="dish-ingredients">
+                      Vanilj, grädde, karamelliserat socker
+                    </span>
+                  </div>
+                </div>
+              </td>
+
+              <td>Efterrätt</td>
+              <td>Portion</td>
+              <td>119 kr</td>
+
+              <td>
+                <label class="toggle">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </td>
+
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera Crème brûlée">
+                    <span class="icon edit" aria-hidden="true"></span>
+                  </button>
+
+                  <button
+                    type="button"
+                    class="cancel"
+                    aria-label="Ta bort Crème brûlée"
+                  >
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section
+        class="admin-card"
+        id="panel-users"
+        role="tabpanel"
+        aria-labelledby="tab-users"
+        hidden
+      >
+        <h2 class="admin-header">Användare</h2>
+        <table class="admin-table users">
+          <thead>
+            <tr>
+              <th>Namn</th>
+              <th>E-post</th>
+              <th>Roll</th>
+              <th>Status</th>
+              <th>Åtgärder</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Förnamn Efternamn</td>
+              <td>admin@zupreme.se</td>
+              <td>
+                <div class="role">
+                  <span class="icon shield-person" aria-hidden="true"></span>
+                  Administratör
+                </div>
+              </td>
+              <td>
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    checked
+                    aria-label="Aktivera eller inaktivera användare"
+                  />
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera">
+                    <span class="icon edit" aria-hidden="true"> </span>
+                  </button>
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"> </span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td>Förnamn Efternamn</td>
+              <td>editor@zupreme.se</td>
+              <td>
+                <div class="role">
+                  <span class="icon person-edit" aria-hidden="true"> </span>
+                  Redaktör
+                </div>
+              </td>
+              <td>
+                <label class="toggle">
+                  <input
+                    type="checkbox"
+                    aria-label="Aktivera eller inaktivera användare"
+                  />
+                  <span class="slider"></span>
+                </label>
+              </td>
+              <td>
+                <div class="actions">
+                  <button type="button" aria-label="Redigera">
+                    <span class="icon edit" aria-hidden="true"> </span>
+                  </button>
+
+                  <button type="button" class="cancel" aria-label="Ta bort">
+                    <span class="icon delete" aria-hidden="true"></span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <h2 class="sr-only">Varumärke</h2>
+      <a class="brand" href="/">
+        <img src="assets/images/logo.svg" width="25" height="25" alt="" />
+        <span class="site-name">Zuprême</span>
+      </a>
+      <h2 class="sr-only">Juridisk information</h2>
+      <p class="footer-copy">
+        © 2026 Zuprême Admin. Alla rättigheter förbehållna.
+      </p>
+    </footer>
+  </body>
+</html>
