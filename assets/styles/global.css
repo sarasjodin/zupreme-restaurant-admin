@@ -1,0 +1,245 @@
+/* ==========================================================
+   VARIABLES
+   ========================================================== */
+
+:root {
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Playfair Display', serif;
+
+  --gold: #d5a85f;
+
+  --bg: #f8f1e8;
+  --surface: #fffaf3;
+  --header-bg: #faf6ef;
+  --text: #211b19;
+  --muted: #6f625a;
+  --border: rgba(80, 60, 45, 0.22);
+  --pattern: rgba(120, 100, 85, 0.12);
+  --shadow: rgba(0, 0, 0, 0.1);
+  --danger: #d9534f;
+}
+
+/* ==========================================================
+   RESET / BASE
+   ========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100svh;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.sr-only {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ==========================================================
+   SHARED LAYOUT
+   ========================================================== */
+
+[hidden] {
+  display: none !important;
+}
+
+.admin-login,
+.admin-dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-menu button,
+.admin-tabs button {
+  padding: 0.6rem 1rem;
+  font: inherit;
+  font-size: 1rem;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.nav-menu button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-menu button:hover,
+.admin-tabs button:hover {
+  color: black;
+  background: white;
+  border-color: var(--gold);
+}
+
+.nav-menu button:focus-visible,
+.admin-tabs button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+#logout-button {
+  outline: 0.5px solid lightgray;
+  color: rgb(81, 81, 81);
+  margin: 0 4rem 0 5rem;
+}
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--border);
+  min-height: 80px;
+}
+
+/* ==========================================================
+   BRAND & LOGO
+   ========================================================== */
+
+.brand,
+.site-footer a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-self: start;
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-name {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.logo-wrapper {
+  display: inline-flex;
+}
+
+.logo-wrapper img {
+  display: block;
+  width: 30px;
+  height: 30px;
+}
+
+.logo-small img,
+.admin-link .logo {
+  width: 15px;
+  height: 15px;
+}
+
+/* ==========================================================
+   ICONS
+   ========================================================== */
+
+.icon {
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+.icon.login {
+  --icon: url('../icons/login_24dp_CURRENTCOLOR_FILL0_wght400_GRAD0_opsz24.svg');
+}
+
+.icon.exit {
+  --icon: url('../icons/exit-to-app_24dp_CURRENTCOLOR_FILL0_wght400_GRAD0_opsz24.svg');
+}
+
+.icon.delete {
+  --icon: url('../icons/delete_24dp_CURRENTCOLOR_FILL0_wght400_GRAD0_opsz24.svg');
+}
+
+.icon.edit {
+  --icon: url('../icons/edit_24dp_CURRENTCOLOR_FILL0_wght400_GRAD0_opsz24.svg');
+}
+
+.icon.event-busy {
+  --icon: url('../icons/event_busy_24dp_CURRENTCOLOR_FILL0_wght400_GRAD0_opsz24.svg');
+}
+
+.icon.email-read {
+  --icon: url('../icons/mark_email_read_24dp_CURRENTCOLOR_FILL0_wght400_GRAD0_opsz24.svg');
+}
+
+.icon.person-edit {
+  --icon: url('../icons/person_edit_24dp_CURRENTCOLOR_FILL0_wght400_GRAD0_opsz24.svg');
+}
+
+.icon.shield-person {
+  --icon: url('../icons/shield_person_24dp_CURRENTCOLOR_FILL0_wght400_GRAD0_opsz24.svg');
+}
+
+.icon.visibility {
+  --icon: url('../icons/visibility_24dp_CURRENTCOLOR_FILL0_wght400_GRAD0_opsz24.svg');
+}
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+.site-footer {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 2rem;
+  padding: 0.5rem 2rem 1rem;
+  background: var(--header-bg);
+  border-top: 1px solid var(--border);
+}
+
+.site-footer .brand {
+  justify-self: start;
+}
+
+footer h2 {
+  font-family: var(--font-heading);
+}
+
+footer .site-name {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.site-footer .footer-copy {
+  justify-self: left;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
