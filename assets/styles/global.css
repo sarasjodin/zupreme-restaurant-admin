@@ -30,6 +30,11 @@
   box-sizing: border-box;
 }
 
+/*  Reserve space for scrollbar to avoid layout shift when it appears */
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   min-height: 100svh;
   font-family: var(--font-body);
@@ -116,10 +121,10 @@ body {
   top: 0;
   z-index: 1000;
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 0.5fr auto auto;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 0.8rem;
+  padding: 0.8rem;
   background: var(--header-bg);
   border-bottom: 1px solid var(--border);
   min-height: 80px;
