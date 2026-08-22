@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Zupreme Restaurant Administrationsvy</title>
+    <title>Zupreme Restaurant | Administration</title>
     <link rel="icon" href="favicon.ico" />
     <link rel="stylesheet" href="assets/styles/global.css" />
     <link rel="stylesheet" href="assets/styles/admin.css" />
@@ -15,6 +15,8 @@
         <img src="assets/images/logo.svg" width="30" height="30" alt="" />
         <span class="site-name">Zuprême</span>
       </a>
+
+      <h1 class="admin-title">Administration</h1>
 
       <nav class="admin-nav" aria-label="Administrationsvy">
         <div class="admin-tabs" role="tablist" aria-label="Administrationsvyer">
@@ -59,9 +61,11 @@
         </ul>
       </nav>
     </header>
-    <main class="admin-dashboard">
-      <h1 id="admin-title">Administrationsvy</h1>
-      <p>Hantera meny, meddelanden och (eventuellt) användare.</p>
+    <main class="content">
+      <!-- ======================================================
+        MESSAGES
+       ====================================================== -->
+
       <section
         class="admin-card"
         id="panel-messages"
@@ -273,6 +277,10 @@
           </tbody>
         </table>
       </section>
+
+      <!-- ======================================================
+       MENU
+       ====================================================== -->
       <section
         class="admin-card"
         id="panel-menu"
@@ -280,392 +288,1097 @@
         aria-labelledby="tab-menu"
       >
         <h2 class="admin-header">Meny</h2>
-        <table class="admin-table menu">
-          <thead>
-            <tr>
-              <th>Artikel</th>
-              <th>Kategori</th>
-              <th>Servering</th>
-              <th>Pris</th>
-              <th>Aktiv</th>
-              <th>Åtgärder</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="dish">
-                  <img src="assets/images/dish-placeholder.jpg" alt="" />
 
-                  <div class="dish-content">
-                    <span class="dish-name">Toast Skagen</span>
-                    <span class="dish-ingredients">
-                      Räkor, majonnäs, dill, citron
-                    </span>
-                  </div>
-                </div>
-              </td>
+        <!-- ======================================================
+            FÖRRÄTTER
+            ====================================================== -->
 
-              <td>Förrätt</td>
-              <td>Portion</td>
-              <td>149 kr</td>
+        <section
+          class="menu-category-admin"
+          aria-labelledby="category-starters"
+        >
+          <h3 id="category-starters">Förrätter</h3>
 
-              <td>
-                <label class="toggle">
-                  <input type="checkbox" checked />
-                  <span class="slider"></span>
-                </label>
-              </td>
+          <div class="table-wrapper">
+            <table class="admin-table menu">
+              <caption class="sr-only">
+                Menyartiklar i kategorin Förrätter
+              </caption>
 
-              <td>
-                <div class="actions">
-                  <button type="button" aria-label="Redigera Toast Skagen">
-                    <span class="icon edit" aria-hidden="true"></span>
-                  </button>
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <abbr title="Sorteringsordning">Pos.</abbr>
+                  </th>
+                  <th scope="col">
+                    <span class="sr-only">Rätt</span>
+                  </th>
+                  <th scope="col">Servering</th>
+                  <th scope="col">Pris</th>
+                  <th scope="col">Tillgänglig</th>
+                  <th scope="col">Åtgärder</th>
+                </tr>
+              </thead>
 
-                  <button
-                    type="button"
-                    class="cancel"
-                    aria-label="Ta bort Toast Skagen"
-                  >
-                    <span class="icon delete" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
+              <tbody>
+                <tr>
+                  <td>1</td>
 
-            <tr>
-              <td>
-                <div class="dish">
-                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/burrata-med-tomat-och-basilika.webp"
+                        alt=""
+                      />
 
-                  <div class="dish-content">
-                    <span class="dish-name">Oxfilé</span>
-                    <span class="dish-ingredients">
-                      Potatispuré, rödvinssås
-                    </span>
-                  </div>
-                </div>
-              </td>
+                      <div class="dish-content">
+                        <span class="dish-name">
+                          Burrata med tomat &amp; basilika
+                        </span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
 
-              <td>Huvudrätt</td>
-              <td>Portion</td>
-              <td>329 kr</td>
+                  <td>Portion</td>
+                  <td>165 kr</td>
 
-              <td>
-                <label class="toggle">
-                  <input type="checkbox" checked />
-                  <span class="slider"></span>
-                </label>
-              </td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Burrata med tomat och basilika"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
 
-              <td>
-                <div class="actions">
-                  <button type="button" aria-label="Redigera Oxfilé">
-                    <span class="icon edit" aria-hidden="true"></span>
-                  </button>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Burrata med tomat och basilika"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
 
-                  <button
-                    type="button"
-                    class="cancel"
-                    aria-label="Ta bort Oxfilé"
-                  >
-                    <span class="icon delete" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Burrata med tomat och basilika"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
 
-            <tr>
-              <td>
-                <div class="dish">
-                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+                <tr>
+                  <td>2</td>
 
-                  <div class="dish-content">
-                    <span class="dish-name">Crème brûlée</span>
-                    <span class="dish-ingredients">
-                      Vanilj, grädde, karamelliserat socker
-                    </span>
-                  </div>
-                </div>
-              </td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/chevre-chaud-med-paron-och-valnot.webp"
+                        alt=""
+                      />
 
-              <td>Efterrätt</td>
-              <td>Portion</td>
-              <td>119 kr</td>
+                      <div class="dish-content">
+                        <span class="dish-name">
+                          Chèvre chaud med päron &amp; valnöt
+                        </span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
 
-              <td>
-                <label class="toggle">
-                  <input type="checkbox" />
-                  <span class="slider"></span>
-                </label>
-              </td>
+                  <td>Portion</td>
+                  <td>155 kr</td>
 
-              <td>
-                <div class="actions">
-                  <button type="button" aria-label="Redigera Crème brûlée">
-                    <span class="icon edit" aria-hidden="true"></span>
-                  </button>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Chèvre chaud med päron och valnöt"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
 
-                  <button
-                    type="button"
-                    class="cancel"
-                    aria-label="Ta bort Crème brûlée"
-                  >
-                    <span class="icon delete" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="dish">
-                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Chèvre chaud med päron och valnöt"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
 
-                  <div class="dish-content">
-                    <span class="dish-name">Crème brûlée</span>
-                    <span class="dish-ingredients">
-                      Vanilj, grädde, karamelliserat socker
-                    </span>
-                  </div>
-                </div>
-              </td>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Chèvre chaud med päron och valnöt"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
 
-              <td>Efterrätt</td>
-              <td>Portion</td>
-              <td>119 kr</td>
+                <tr>
+                  <td>3</td>
 
-              <td>
-                <label class="toggle">
-                  <input type="checkbox" />
-                  <span class="slider"></span>
-                </label>
-              </td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/toast-skagen-a-la-zupreme.webp"
+                        alt=""
+                      />
 
-              <td>
-                <div class="actions">
-                  <button type="button" aria-label="Redigera Crème brûlée">
-                    <span class="icon edit" aria-hidden="true"></span>
-                  </button>
+                      <div class="dish-content">
+                        <span class="dish-name">Toast Skagen à la Zuprême</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
 
-                  <button
-                    type="button"
-                    class="cancel"
-                    aria-label="Ta bort Crème brûlée"
-                  >
-                    <span class="icon delete" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="dish">
-                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+                  <td>Portion</td>
+                  <td>175 kr</td>
 
-                  <div class="dish-content">
-                    <span class="dish-name">Crème brûlée</span>
-                    <span class="dish-ingredients">
-                      Vanilj, grädde, karamelliserat socker
-                    </span>
-                  </div>
-                </div>
-              </td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Toast Skagen à la Zuprême"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
 
-              <td>Efterrätt</td>
-              <td>Portion</td>
-              <td>119 kr</td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Toast Skagen à la Zuprême"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
 
-              <td>
-                <label class="toggle">
-                  <input type="checkbox" />
-                  <span class="slider"></span>
-                </label>
-              </td>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Toast Skagen à la Zuprême"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
 
-              <td>
-                <div class="actions">
-                  <button type="button" aria-label="Redigera Crème brûlée">
-                    <span class="icon edit" aria-hidden="true"></span>
-                  </button>
+        <!-- ======================================================
+            SOPPOR
+            ====================================================== -->
 
-                  <button
-                    type="button"
-                    class="cancel"
-                    aria-label="Ta bort Crème brûlée"
-                  >
-                    <span class="icon delete" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="dish">
-                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+        <section class="menu-category-admin" aria-labelledby="category-soups">
+          <h3 id="category-soups">Soppor</h3>
 
-                  <div class="dish-content">
-                    <span class="dish-name">Crème brûlée</span>
-                    <span class="dish-ingredients">
-                      Vanilj, grädde, karamelliserat socker
-                    </span>
-                  </div>
-                </div>
-              </td>
+          <div class="table-wrapper">
+            <table class="admin-table menu">
+              <caption class="sr-only">
+                Menyartiklar i kategorin Soppor
+              </caption>
 
-              <td>Efterrätt</td>
-              <td>Portion</td>
-              <td>119 kr</td>
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <abbr title="Sorteringsordning">Pos.</abbr>
+                  </th>
+                  <th scope="col">
+                    <span class="sr-only">Rätt</span>
+                  </th>
+                  <th scope="col">Servering</th>
+                  <th scope="col">Pris</th>
+                  <th scope="col">Tillgänglig</th>
+                  <th scope="col">Åtgärder</th>
+                </tr>
+              </thead>
 
-              <td>
-                <label class="toggle">
-                  <input type="checkbox" />
-                  <span class="slider"></span>
-                </label>
-              </td>
+              <tbody>
+                <tr>
+                  <td>1</td>
 
-              <td>
-                <div class="actions">
-                  <button type="button" aria-label="Redigera Crème brûlée">
-                    <span class="icon edit" aria-hidden="true"></span>
-                  </button>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/kramig-tomatsoppa.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Tomatsoppa</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
 
-                  <button
-                    type="button"
-                    class="cancel"
-                    aria-label="Ta bort Crème brûlée"
-                  >
-                    <span class="icon delete" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="dish">
-                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+                  <td>Portion</td>
+                  <td>165 kr</td>
 
-                  <div class="dish-content">
-                    <span class="dish-name">Crème brûlée</span>
-                    <span class="dish-ingredients">
-                      Vanilj, grädde, karamelliserat socker
-                    </span>
-                  </div>
-                </div>
-              </td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Tomatsoppa"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
 
-              <td>Efterrätt</td>
-              <td>Portion</td>
-              <td>119 kr</td>
+                  <td>
+                    <div class="actions">
+                      <button type="button" aria-label="Redigera Tomatsoppa">
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Tomatsoppa"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
 
-              <td>
-                <label class="toggle">
-                  <input type="checkbox" />
-                  <span class="slider"></span>
-                </label>
-              </td>
+                <tr>
+                  <td>2</td>
 
-              <td>
-                <div class="actions">
-                  <button type="button" aria-label="Redigera Crème brûlée">
-                    <span class="icon edit" aria-hidden="true"></span>
-                  </button>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/soupe-a-loignon-gratinee.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Soupe à l’oignon gratinée</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
 
-                  <button
-                    type="button"
-                    class="cancel"
-                    aria-label="Ta bort Crème brûlée"
-                  >
-                    <span class="icon delete" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="dish">
-                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+                  <td>Skål</td>
+                  <td>175 kr</td>
 
-                  <div class="dish-content">
-                    <span class="dish-name">Crème brûlée</span>
-                    <span class="dish-ingredients">
-                      Vanilj, grädde, karamelliserat socker
-                    </span>
-                  </div>
-                </div>
-              </td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Soupe à l’oignon gratinée"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
 
-              <td>Efterrätt</td>
-              <td>Portion</td>
-              <td>119 kr</td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Soupe à l’oignon gratinée"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Soupe à l’oignon gratinée"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
 
-              <td>
-                <label class="toggle">
-                  <input type="checkbox" />
-                  <span class="slider"></span>
-                </label>
-              </td>
+                <tr>
+                  <td>3</td>
 
-              <td>
-                <div class="actions">
-                  <button type="button" aria-label="Redigera Crème brûlée">
-                    <span class="icon edit" aria-hidden="true"></span>
-                  </button>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/kramig-kantarellsoppa.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Krämig kantarellsoppa</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
 
-                  <button
-                    type="button"
-                    class="cancel"
-                    aria-label="Ta bort Crème brûlée"
-                  >
-                    <span class="icon delete" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="dish">
-                  <img src="assets/images/dish-placeholder.jpg" alt="" />
+                  <td>Skål</td>
+                  <td>185 kr</td>
 
-                  <div class="dish-content">
-                    <span class="dish-name">Crème brûlée</span>
-                    <span class="dish-ingredients">
-                      Vanilj, grädde, karamelliserat socker
-                    </span>
-                  </div>
-                </div>
-              </td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Krämig kantarellsoppa"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
 
-              <td>Efterrätt</td>
-              <td>Portion</td>
-              <td>119 kr</td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Krämig kantarellsoppa"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Krämig kantarellsoppa"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
 
-              <td>
-                <label class="toggle">
-                  <input type="checkbox" />
-                  <span class="slider"></span>
-                </label>
-              </td>
+                <tr>
+                  <td>4</td>
 
-              <td>
-                <div class="actions">
-                  <button type="button" aria-label="Redigera Crème brûlée">
-                    <span class="icon edit" aria-hidden="true"></span>
-                  </button>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/tom-kha-gai.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Tom kha gai</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
 
-                  <button
-                    type="button"
-                    class="cancel"
-                    aria-label="Ta bort Crème brûlée"
-                  >
-                    <span class="icon delete" aria-hidden="true"></span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                  <td>Skål</td>
+                  <td>185 kr</td>
+
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Tom kha gai"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+
+                  <td>
+                    <div class="actions">
+                      <button type="button" aria-label="Redigera Tom kha gai">
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Tom kha gai"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ======================================================
+            VARMRÄTTER
+            ====================================================== -->
+
+        <section class="menu-category-admin" aria-labelledby="category-main">
+          <h3 id="category-main">Varmrätter</h3>
+
+          <div class="table-wrapper">
+            <table class="admin-table menu">
+              <caption class="sr-only">
+                Menyartiklar i kategorin Varmrätter
+              </caption>
+
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <abbr title="Sorteringsordning">Pos.</abbr>
+                  </th>
+                  <th scope="col">
+                    <span class="sr-only">Rätt</span>
+                  </th>
+                  <th scope="col">Servering</th>
+                  <th scope="col">Pris</th>
+                  <th scope="col">Tillgänglig</th>
+                  <th scope="col">Åtgärder</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/bouillabaisse-zupreme.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Bouillabaisse Zuprême</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Stor skål</td>
+                  <td>295 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Bouillabaisse Zuprême"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Bouillabaisse Zuprême"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Bouillabaisse Zuprême"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>2</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img src="assets/images/menu-items/pho-bo.webp" alt="" />
+                      <div class="dish-content">
+                        <span class="dish-name">Phở bò</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Stor skål</td>
+                  <td>245 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Phở bò"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button type="button" aria-label="Redigera Phở bò">
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Phở bò"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>3</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/grillad-oxfile-med-rodvinssas.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">
+                          Grillad oxfilé med rödvinssås
+                        </span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Portion</td>
+                  <td>365 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Grillad oxfilé med rödvinssås"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Grillad oxfilé med rödvinssås"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Grillad oxfilé med rödvinssås"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>4</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/confit-de-canard.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Confit de canard</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Portion</td>
+                  <td>345 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Confit de canard"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Confit de canard"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Confit de canard"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>5</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/risotto-ai-funghi.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Risotto ai funghi</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Portion</td>
+                  <td>255 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Risotto ai funghi"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Risotto ai funghi"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Risotto ai funghi"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ======================================================
+            EFTERRÄTTER
+            ====================================================== -->
+
+        <section
+          class="menu-category-admin"
+          aria-labelledby="category-desserts"
+        >
+          <h3 id="category-desserts">Efterrätter</h3>
+
+          <div class="table-wrapper">
+            <table class="admin-table menu">
+              <caption class="sr-only">
+                Menyartiklar i kategorin Efterrätter
+              </caption>
+
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <abbr title="Sorteringsordning">Pos.</abbr>
+                  </th>
+                  <th scope="col">
+                    <span class="sr-only">Rätt</span>
+                  </th>
+                  <th scope="col">Servering</th>
+                  <th scope="col">Pris</th>
+                  <th scope="col">Tillgänglig</th>
+                  <th scope="col">Åtgärder</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/tarte-tatin.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Tarte Tatin</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Portion</td>
+                  <td>155 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Tarte Tatin"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button type="button" aria-label="Redigera Tarte Tatin">
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Tarte Tatin"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>2</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/hjortron-och-vanilj.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Hjortron &amp; vanilj</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Portion</td>
+                  <td>145 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Hjortron och vanilj"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Hjortron och vanilj"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Hjortron och vanilj"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>3</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/chokladmousse-med-hallon.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Chokladmousse med hallon</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Portion</td>
+                  <td>145 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Chokladmousse med hallon"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Chokladmousse med hallon"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Chokladmousse med hallon"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>4</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/creme-brulee.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Crème brûlée</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Portion</td>
+                  <td>145 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        aria-label="Tillgänglig: Crème brûlée"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button type="button" aria-label="Redigera Crème brûlée">
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Crème brûlée"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ======================================================
+            DRYCKER
+            ====================================================== -->
+
+        <section class="menu-category-admin" aria-labelledby="category-drinks">
+          <h3 id="category-drinks">Drycker</h3>
+
+          <div class="table-wrapper">
+            <table class="admin-table menu">
+              <caption class="sr-only">
+                Menyartiklar i kategorin Drycker
+              </caption>
+
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <abbr title="Sorteringsordning">Pos.</abbr>
+                  </th>
+                  <th scope="col">
+                    <span class="sr-only">Rätt</span>
+                  </th>
+                  <th scope="col">Servering</th>
+                  <th scope="col">Pris</th>
+                  <th scope="col">Tillgänglig</th>
+                  <th scope="col">Åtgärder</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/yuzu-och-flader-spritz.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Yuzu &amp; fläder spritz</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Glas</td>
+                  <td>95 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Yuzu och fläder spritz"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Yuzu och fläder spritz"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Yuzu och fläder spritz"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>2</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/evian-kolsyrat-vatten.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Evian kolsyrat vatten</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Flaska</td>
+                  <td>25 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Evian kolsyrat vatten"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Evian kolsyrat vatten"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Evian kolsyrat vatten"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>3</td>
+                  <th scope="row">
+                    <div class="dish">
+                      <img
+                        src="assets/images/menu-items/husets-roda-vin.webp"
+                        alt=""
+                      />
+                      <div class="dish-content">
+                        <span class="dish-name">Husets röda vin</span>
+                        <span class="dish-ingredients">
+                          Dummybeskrivning – hårdkodat demoinnehåll
+                        </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td>Glas</td>
+                  <td>125 kr</td>
+                  <td>
+                    <label class="toggle">
+                      <input
+                        type="checkbox"
+                        checked
+                        aria-label="Tillgänglig: Husets röda vin"
+                      />
+                      <span class="slider" aria-hidden="true"></span>
+                    </label>
+                  </td>
+                  <td>
+                    <div class="actions">
+                      <button
+                        type="button"
+                        aria-label="Redigera Husets röda vin"
+                      >
+                        <span class="icon edit" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        type="button"
+                        class="cancel"
+                        aria-label="Ta bort Husets röda vin"
+                      >
+                        <span class="icon delete" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
       </section>
+
+      <!-- ======================================================
+       USERS
+       ====================================================== -->
+
       <section
         class="admin-card"
         id="panel-users"
@@ -686,7 +1399,7 @@
           </thead>
           <tbody>
             <tr>
-              <td>Förnamn Efternamn</td>
+              <th scope="row">Förnamn Efternamn</th>
               <td>admin@zupreme.se</td>
               <td>
                 <div class="role">
@@ -716,7 +1429,7 @@
               </td>
             </tr>
             <tr>
-              <td>Förnamn Efternamn</td>
+              <th scope="row">Förnamn Efternamn</th>
               <td>editor@zupreme.se</td>
               <td>
                 <div class="role">
