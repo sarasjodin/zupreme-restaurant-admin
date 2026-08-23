@@ -291,7 +291,113 @@
         role="tabpanel"
         aria-labelledby="tab-menu"
       >
-        <h2 class="admin-header">Meny</h2>
+        <div class="menu-heading">
+          <h2 class="admin-header">Meny</h2>
+          <button
+            id="add-menu-item-button"
+            type="button"
+            aria-controls="menu-item-form"
+            aria-expanded="false"
+            class="primary-button"
+          >
+            Lägg till menyartikel
+          </button>
+        </div>
+        <form id="menu-item-form" class="menu-item-form" hidden>
+          <h3 id="menu-item-form-title">Lägg till menyartikel</h3>
+
+          <div class="form-group">
+            <label for="menu-category">Kategori</label>
+            <select id="menu-category" name="category_id" required>
+              <option value="">Välj kategori</option>
+              <option value="1">Förrätter</option>
+              <option value="2">Soppor</option>
+              <option value="3">Varmrätter</option>
+              <option value="4">Efterrätter</option>
+              <option value="5">Drycker</option>
+            </select>
+          </div>
+
+          <div class="form-group form-group-name">
+            <label for="menu-name">Namn</label>
+            <input
+              id="menu-name"
+              name="name"
+              type="text"
+              maxlength="150"
+              required
+            />
+          </div>
+
+          <div class="form-group form-group-full">
+            <label for="menu-description">Beskrivning</label>
+            <textarea
+              id="menu-description"
+              name="description"
+              maxlength="1000"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="menu-serving">Servering</label>
+            <input
+              id="menu-serving"
+              name="serving"
+              type="text"
+              maxlength="50"
+              value="Portion"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="menu-price">Pris</label>
+            <input
+              id="menu-price"
+              name="price"
+              type="number"
+              min="0"
+              step="0.01"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="menu-sort-order">Sorteringsposition</label>
+            <input
+              id="menu-sort-order"
+              name="sort_order"
+              type="number"
+              min="0"
+              value="0"
+              required
+            />
+          </div>
+
+          <div class="form-group checkbox-group">
+            <label for="menu-available" class="checkbox-label">
+              <input
+                id="menu-available"
+                name="is_available"
+                type="checkbox"
+                checked
+              />
+              Tillgänglig
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button
+              id="cancel-menu-item-button"
+              type="button"
+              class="secondary-button"
+            >
+              Avbryt
+            </button>
+
+            <button type="submit" class="primary-button">Spara</button>
+          </div>
+        </form>
         <p
           id="menu-status"
           class="status-message"
