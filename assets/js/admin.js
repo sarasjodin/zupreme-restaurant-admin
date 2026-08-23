@@ -153,6 +153,83 @@ async function fetchMenuItems() {
 }
 
 // --------------------------------------------------
+// Meny-API - skapa menyartikel
+// --------------------------------------------------
+
+async function createMenuItem(menuItem) {
+  try {
+    const response = await authFetch('/menu-items', {
+      method: 'POST',
+      body: JSON.stringify(menuItem)
+    });
+
+    if (!response) {
+      return null;
+    }
+
+    if (!response.ok) {
+      const data = await response.json();
+
+      showMessage(
+        'menu-status',
+        data.error ?? 'Menyartikeln kunde inte skapas.',
+        'error'
+      );
+
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Could not create menu item:', error);
+
+    showMessage('menu-status', 'Menyartikeln kunde inte skapas.', 'error');
+
+    return null;
+  }
+}
+
+// --------------------------------------------------
+// Hantera formulär för ny menyartikel
+// --------------------------------------------------
+
+async function handleMenuItemSubmit(event) {
+  event.preventDefault();
+
+  const menuItem = {
+    category_id: Number(menuItemForm.elements.category_id.value),
+    name: menuItemForm.elements.name.value.trim(),
+    description: menuItemForm.elements.description.value.trim(),
+    serving: menuItemForm.elements.serving.value.trim(),
+    price: Number(menuItemForm.elements.price.value),
+    sort_order: Number(menuItemForm.elements.sort_order.value),
+    is_available: menuItemForm.elements.is_available.checked
+  };
+
+  const createdItem = await createMenuItem(menuItem);
+
+  if (!createdItem) {
+    return;
+  }
+
+  // Dölj och återställ formuläret efter lyckat skapande av menyartikel
+  hideMenuItemForm();
+
+  // Hämta den uppdaterade menyn från API:t.
+  const menuItems = await fetchMenuItems();
+
+  if (menuItems === null) {
+    return;
+  }
+
+  renderMenuItems(menuItems);
+
+  showMessage('menu-status', 'Menyartikeln skapades.', 'success', true);
+}
+
+menuItemForm.addEventListener('submit', handleMenuItemSubmit);
+
+// --------------------------------------------------
 // Menu rendering - rendera menyartiklar i tabeller
 // --------------------------------------------------
 
