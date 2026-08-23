@@ -4,6 +4,7 @@
  * och navigation mellan administrationssidans flikar
  */
 
+import { IMAGE_BASE_URL } from './config.js';
 import { authFetch } from './api.js';
 import { removeToken, redirectToLogin } from './auth.js';
 import { showMessage, clearMessage } from './statusMessages.js';
@@ -25,6 +26,10 @@ const categoryTables = {
   Drycker: document.querySelector('#menu-drinks')
 };
 
+const addMenuItemButton = document.querySelector('#add-menu-item-button');
+const menuItemForm = document.querySelector('#menu-item-form');
+const cancelMenuItemButton = document.querySelector('#cancel-menu-item-button');
+
 // --------------------------------------------------
 // Kategoribilder
 // --------------------------------------------------
@@ -36,6 +41,24 @@ const categoryImages = {
   Efterrätter: 'assets/images/menu-categories/efterratt.webp',
   Drycker: 'assets/images/menu-categories/dryck.webp'
 };
+
+// --------------------------------------------------
+// Formulär för menyartiklar
+// --------------------------------------------------
+
+function showMenuItemForm() {
+  menuItemForm.hidden = false;
+  addMenuItemButton.setAttribute('aria-expanded', 'true');
+}
+
+function hideMenuItemForm() {
+  menuItemForm.hidden = true;
+  menuItemForm.reset();
+  addMenuItemButton.setAttribute('aria-expanded', 'false');
+}
+
+addMenuItemButton.addEventListener('click', showMenuItemForm);
+cancelMenuItemButton.addEventListener('click', hideMenuItemForm);
 
 // --------------------------------------------------
 // Authentication
@@ -178,7 +201,12 @@ function createMenuItemRow(item) {
   dish.className = 'dish';
 
   const image = document.createElement('img');
-  image.src = categoryImages[item.category_name];
+  if (item.image_path) {
+    image.src = `${IMAGE_BASE_URL}${item.image_path}`;
+  } else {
+    image.src = categoryImages[item.category_name];
+  }
+
   image.alt = '';
 
   const dishContent = document.createElement('div');
