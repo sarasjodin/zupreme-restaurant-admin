@@ -267,6 +267,122 @@ async function updateMenuItem(menuItemId, menuItem) {
 }
 
 // --------------------------------------------------
+// Meny-API - ta bort menyartikel
+// --------------------------------------------------
+
+async function deleteMenuItem(menuItemId) {
+  try {
+    const response = await authFetch(`/menu-items/${menuItemId}`, {
+      method: 'DELETE'
+    });
+
+    if (!response) {
+      return false;
+    }
+
+    if (!response.ok) {
+      const data = await response.json();
+
+      showMessage(
+        'menu-status',
+        data.error ?? 'Menyartikeln kunde inte tas bort.',
+        'error'
+      );
+
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Could not delete menu item:', error);
+
+    showMessage('menu-status', 'Menyartikeln kunde inte tas bort.', 'error');
+
+    return false;
+  }
+}
+
+// --------------------------------------------------
+// Hantera borttagning av menyartikel
+// --------------------------------------------------
+
+async function handleDeleteMenuItem(item, confirmation) {
+  const deleted = await deleteMenuItem(item.id);
+
+  if (!deleted) {
+    return;
+  }
+
+  confirmation.remove();
+
+  const menuItems = await fetchMenuItems();
+
+  if (menuItems === null) {
+    return;
+  }
+
+  renderMenuItems(menuItems);
+
+  showMessage('menu-status', 'Menyartikeln togs bort.', 'success', true);
+}
+
+// --------------------------------------------------
+// Visa bekräftelse för borttagning
+// --------------------------------------------------
+
+function showDeleteConfirmation(item, deleteButton) {
+  // Ta bort eventuell tidigare bekräftelse.
+  const existingConfirmation = document.querySelector('.delete-confirmation');
+
+  if (existingConfirmation) {
+    existingConfirmation.remove();
+  }
+
+  const confirmation = document.createElement('div');
+  confirmation.className = 'delete-confirmation';
+
+  const message = document.createElement('p');
+  message.textContent = `Vill du verkligen ta bort "${item.name}"?`;
+
+  const actions = document.createElement('div');
+  actions.className = 'delete-confirmation-actions';
+
+  const cancelButton = document.createElement('button');
+  cancelButton.type = 'button';
+  cancelButton.className = 'secondary-button';
+  cancelButton.textContent = 'Avbryt';
+
+  const confirmButton = document.createElement('button');
+  confirmButton.type = 'button';
+  confirmButton.className = 'delete-button';
+  confirmButton.textContent = 'Ta bort';
+
+  actions.append(cancelButton, confirmButton);
+  confirmation.append(message, actions);
+
+  // Placera bekräftelsen direkt efter tabellen som innehåller delete-knappen
+  const table = deleteButton.closest('table');
+  table.insertAdjacentElement('afterend', confirmation);
+
+  // Flytta användaren till bekräftelsen om tabellen är lång
+  confirmation.scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest'
+  });
+
+  confirmButton.focus();
+
+  cancelButton.addEventListener('click', () => {
+    confirmation.remove();
+    deleteButton.focus();
+  });
+
+  confirmButton.addEventListener('click', () => {
+    handleDeleteMenuItem(item, confirmation);
+  });
+}
+
+// --------------------------------------------------
 // Hantera formulär för menyartiklar
 // --------------------------------------------------
 
@@ -454,6 +570,10 @@ function createMenuItemRow(item) {
   deleteButton.className = 'cancel';
   deleteButton.dataset.id = item.id;
   deleteButton.setAttribute('aria-label', `Ta bort ${item.name}`);
+
+  deleteButton.addEventListener('click', () => {
+    showDeleteConfirmation(item, deleteButton);
+  });
 
   const deleteIcon = document.createElement('span');
   deleteIcon.className = 'icon delete';

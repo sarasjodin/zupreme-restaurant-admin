@@ -360,6 +360,44 @@ tbody td {
   outline-offset: 3px;
 }
 
+.delete-confirmation {
+  margin-top: 0.75rem;
+  padding: 1rem;
+
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+
+  box-shadow: 0 0.2rem 0.5rem var(--shadow);
+}
+
+.delete-confirmation p {
+  margin: 0 0 0.75rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.delete-confirmation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.delete-button {
+  padding: 0.65rem 1.2rem;
+
+  border: 1px solid var(--text);
+  border-radius: 0.4rem;
+
+  background-color: var(--text);
+  color: #fff;
+
+  font: inherit;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
 /* --------------------------------------------------
    MENU ITEM FORM
 -------------------------------------------------- */
