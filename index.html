@@ -11,7 +11,7 @@
 
   <body>
     <header class="site-header">
-      <a class="brand" href="/">
+      <a class="brand" href="index.html">
         <img src="assets/images/logo.svg" width="30" height="30" alt="" />
         <span class="site-name">Zuprême</span>
       </a>
@@ -19,9 +19,9 @@
 
     <main class="login-form">
       <section class="login-section" aria-labelledby="login-title">
-        <h1 id="login-title">Inloggning för administratörer</h1>
+        <h1 id="login-title">Inloggning till administrationsvyer</h1>
         <h2 class="form-heading">
-          <span class="icon login"></span>
+          <span class="icon login" aria-hidden="true"></span>
           Logga in
         </h2>
         <form id="login-form">
@@ -47,6 +47,14 @@
             />
           </div>
 
+          <p
+            id="login-status"
+            class="status-message"
+            role="status"
+            aria-live="polite"
+            hidden
+          ></p>
+
           <button type="submit" class="index-button">Logga in</button>
         </form>
       </section>
@@ -54,7 +62,7 @@
 
     <footer class="site-footer">
       <h2 class="sr-only">Varumärke</h2>
-      <a class="brand" href="/">
+      <a class="brand" href="index.html">
         <img src="assets/images/logo.svg" width="25" height="25" alt="" />
         <span class="site-name">Zuprême</span>
       </a>
@@ -63,5 +71,6 @@
         © 2026 Zuprême Admin. Alla rättigheter förbehållna.
       </p>
     </footer>
+    <script type="module" src="assets/js/login.js"></script>
   </body>
 </html>
