@@ -29,6 +29,12 @@ const categoryTables = {
 const addMenuItemButton = document.querySelector('#add-menu-item-button');
 const menuItemForm = document.querySelector('#menu-item-form');
 const cancelMenuItemButton = document.querySelector('#cancel-menu-item-button');
+const menuItemFormTitle = document.querySelector('#menu-item-form-title');
+const menuItemSubmitButton = document.querySelector('#menu-item-submit-button');
+
+// ID för menyartikeln som redigeras
+// null betyder att formuläret används för att skapa en ny artikel
+let editingMenuItemId = null;
 
 // --------------------------------------------------
 // Kategoribilder
@@ -47,13 +53,47 @@ const categoryImages = {
 // --------------------------------------------------
 
 function showMenuItemForm() {
+  editingMenuItemId = null;
+  menuItemForm.reset();
+  menuItemFormTitle.textContent = 'Lägg till menyartikel';
+  menuItemSubmitButton.textContent = 'Spara';
   menuItemForm.hidden = false;
   addMenuItemButton.setAttribute('aria-expanded', 'true');
+}
+
+function showEditMenuItemForm(item) {
+  editingMenuItemId = item.id;
+
+  menuItemForm.elements.category_id.value = item.category_id;
+  menuItemForm.elements.name.value = item.name;
+  menuItemForm.elements.description.value = item.description ?? '';
+  menuItemForm.elements.serving.value = item.serving ?? '';
+  menuItemForm.elements.price.value = item.price;
+  menuItemForm.elements.sort_order.value = item.sort_order;
+  menuItemForm.elements.is_available.checked = Boolean(item.is_available);
+
+  menuItemFormTitle.textContent = 'Redigera menyartikel';
+  menuItemSubmitButton.textContent = 'Spara ändringar';
+
+  menuItemForm.hidden = false;
+  addMenuItemButton.setAttribute('aria-expanded', 'true');
+
+  menuItemForm.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+
+  // Flytta fokus till fältet för kategorival när formuläret visas
+  menuItemForm.elements.category_id.focus();
 }
 
 function hideMenuItemForm() {
   menuItemForm.hidden = true;
   menuItemForm.reset();
+
+  // Återställ edit-läget så att formuläret nästa gång
+  // kan användas för att skapa en ny menyartikel
+  editingMenuItemId = null;
   addMenuItemButton.setAttribute('aria-expanded', 'false');
 }
 
@@ -61,7 +101,7 @@ addMenuItemButton.addEventListener('click', showMenuItemForm);
 cancelMenuItemButton.addEventListener('click', hideMenuItemForm);
 
 // --------------------------------------------------
-// Authentication
+// Authentication - API-anrop med JWT-token
 // --------------------------------------------------
 
 // Kontrollera att användaren är inloggad och har en giltig JWT-token när sidan laddas
@@ -113,7 +153,7 @@ async function init() {
 }
 
 // --------------------------------------------------
-// Menu API - hämta menyartiklar från API
+// Meny API - hämta menyartiklar från API
 // --------------------------------------------------
 
 async function fetchMenuItems() {
@@ -190,12 +230,50 @@ async function createMenuItem(menuItem) {
 }
 
 // --------------------------------------------------
-// Hantera formulär för ny menyartikel
+// Meny-API - uppdatera menyartikel
+// --------------------------------------------------
+
+async function updateMenuItem(menuItemId, menuItem) {
+  try {
+    const response = await authFetch(`/menu-items/${menuItemId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(menuItem)
+    });
+
+    if (!response) {
+      return null;
+    }
+
+    if (!response.ok) {
+      const data = await response.json();
+
+      showMessage(
+        'menu-status',
+        data.error ?? 'Menyartikeln kunde inte uppdateras.',
+        'error'
+      );
+
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Could not update menu item:', error);
+
+    showMessage('menu-status', 'Menyartikeln kunde inte uppdateras.', 'error');
+
+    return null;
+  }
+}
+
+// --------------------------------------------------
+// Hantera formulär för menyartiklar
 // --------------------------------------------------
 
 async function handleMenuItemSubmit(event) {
   event.preventDefault();
 
+  // Skapa objektet som skickas till API:t från formulärets värden
   const menuItem = {
     category_id: Number(menuItemForm.elements.category_id.value),
     name: menuItemForm.elements.name.value.trim(),
@@ -206,25 +284,44 @@ async function handleMenuItemSubmit(event) {
     is_available: menuItemForm.elements.is_available.checked
   };
 
-  const createdItem = await createMenuItem(menuItem);
+  let savedItem;
 
-  if (!createdItem) {
+  // Om inget ID finns skapas en ny menyartikel med POST
+  // Om ett ID finns uppdateras den befintliga artikeln med PATCH
+  if (editingMenuItemId === null) {
+    savedItem = await createMenuItem(menuItem);
+  } else {
+    savedItem = await updateMenuItem(editingMenuItemId, menuItem);
+  }
+
+  // Avbryt om API-anropet misslyckades
+  if (!savedItem) {
     return;
   }
 
-  // Dölj och återställ formuläret efter lyckat skapande av menyartikel
+  // Spara vilket läge formuläret hade innan hideMenuItemForm()
+  // återställer editingMenuItemId till null
+  const wasEditing = editingMenuItemId !== null;
+
+  // Dölj och återställ formuläret efter lyckad sparning.
   hideMenuItemForm();
 
-  // Hämta den uppdaterade menyn från API:t.
+  // Hämta aktuell meny från API:t efter POST eller PATCH
   const menuItems = await fetchMenuItems();
 
   if (menuItems === null) {
     return;
   }
 
+  // Rendera om tabellerna med den uppdaterade datan
   renderMenuItems(menuItems);
 
-  showMessage('menu-status', 'Menyartikeln skapades.', 'success', true);
+  showMessage(
+    'menu-status',
+    wasEditing ? 'Menyartikeln uppdaterades.' : 'Menyartikeln skapades.',
+    'success',
+    true
+  );
 }
 
 menuItemForm.addEventListener('submit', handleMenuItemSubmit);
@@ -339,6 +436,11 @@ function createMenuItemRow(item) {
   const editButton = document.createElement('button');
   editButton.type = 'button';
   editButton.dataset.id = item.id;
+
+  editButton.addEventListener('click', () => {
+    showEditMenuItemForm(item);
+  });
+
   editButton.setAttribute('aria-label', `Redigera ${item.name}`);
 
   const editIcon = document.createElement('span');
@@ -393,7 +495,6 @@ logoutButton.addEventListener('click', handleLogout);
 
 // Aktiverar vald tab och visar den panel som tabben hör till.
 function activateTab(selectedTab) {
-  // Uppdatera ARIA-attribut och tabindex för de valda tabbarna
   tabs.forEach((tab) => {
     const isSelected = tab === selectedTab;
 
@@ -418,7 +519,7 @@ function moveToTab(index) {
   activateTab(tabs[index]);
 }
 
-// Lägg till event listeners för varje tab för klick och tangentbordsnavigeringn
+// Lägg till event listeners för klick och tangentbordsnavigering
 tabs.forEach((tab, index) => {
   // Byt aktiv tab när en tab klickas på
   tab.addEventListener('click', () => {
