@@ -533,8 +533,28 @@ function createMenuItemRow(item) {
   checkbox.checked = item.is_available;
   checkbox.setAttribute('aria-label', `Tillgänglig: ${item.name}`);
 
-  // Sparas för kommande PATCH-funktion.
-  checkbox.dataset.id = item.id;
+  // Uppdatera endast tillgänglighet med PATCH
+  // Checkboxen återställs om uppdatering misslyckas
+  // Patch hämtar id:t från item.id inte från checkbox.dataset.id
+  checkbox.addEventListener('change', async () => {
+    const newValue = checkbox.checked;
+
+    const updatedItem = await updateMenuItem(item.id, {
+      is_available: newValue
+    });
+
+    if (!updatedItem) {
+      checkbox.checked = !newValue;
+      return;
+    }
+
+    showMessage(
+      'menu-status',
+      'Tillgängligheten uppdaterades.',
+      'success',
+      true
+    );
+  });
 
   const slider = document.createElement('span');
   slider.className = 'slider';
