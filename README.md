@@ -3,13 +3,7 @@
 Administrationsgränssnitt för restaurangen Zuprême.
 Administrationssidan används av behöriga användare för att logga in och hantera restaurangens meny via Zuprême Restaurant API.
 
-<!-- Lägg till screenshots när gränssnittet är färdigt -->
-
-<!--
-<img width="72%" src="GITHUB-IMAGE-URL" alt="Zuprême administrationsgränssnitt på desktop" />
-
-<img width="24%" src="GITHUB-IMAGE-URL" alt="Zuprême administrationsgränssnitt på mobil" />
--->
+<img width="1842" height="865" alt="image" src="https://github.com/user-attachments/assets/54676192-5a7c-450f-b059-9f3c9fdc3a44" />
 
 ---
 
@@ -124,6 +118,7 @@ zupreme-restaurant-admin/
 ├── index.html
 └── README.md
 ```
+---
 
 ## Lokal utveckling
 
@@ -135,9 +130,13 @@ Administrationsgränssnittet är en statisk frontend och behöver köras via en 
 Exempelvis kan projektet köras med en lokal utvecklingsserver i VS Code.
 Admin-klienten behöver också kunna kommunicera med Zuprême Restaurant API.
 
+---
+
 ## API-integration
 
 Administrationsgränssnittet kommunicerar med Zuprême Restaurant API med webbläsarens `Fetch API`.
+
+---
 
 ### API-basadress
 
@@ -147,6 +146,8 @@ https://zupreme-restaurant-api.sarasjodin.se/api
 Admin och den publika webbplatsen använder samma backend.
 Skillnaden är att administrationsgränssnittet använder JWT för skyddade endpoints.
 
+---
+
 ## Autentisering
 
 ```
@@ -154,6 +155,7 @@ Method	Endpoint	    Beskrivning	                                Auth
 POST	/auth/login	    Loggar in användaren och returnerar JWT	    Nej
 GET     /auth/me	    Hämtar information om inloggad användare	JWT
 ```
+---
 
 ## Menu items
 
@@ -167,34 +169,7 @@ DELETE	/menu-items/:id	                        Tar bort en menyartikel	    JWT
 
 De skyddade meny-endpointsen kräver en giltig JWT.
 
-Exempel:
-
-`Authorization: Bearer <token>`
-
-### Menu items
-
-Administrationsgränssnittet arbetar med data från API:ts menu_items.
-
-Exempel på information som används i UI:t:
-
-```
-id
-category_id
-category_name
-name
-description
-image_path
-serving
-price
-is_available
-sort_order
-```
-
-- id används internt vid exempelvis update och delete men behöver normalt inte visas för användaren.
-
-- sort_order används för att bestämma menyartikelns position inom sin kategori.
-
-- is_available används för att ange om en menyartikel för närvarande är tillgänglig.
+---
 
 ## Säkerhet
 
@@ -202,30 +177,20 @@ Administrationsgränssnittet kommunicerar aldrig direkt med MySQL-databasen.
 
 Flödet är:
 
-Admin frontend
-↓
-Zuprême Restaurant API
-↓
-Autentisering och validering
-↓
-MySQL
+Admin frontend → Zuprême Restaurant API → Autentisering och validering → MySQL
 
-Skyddade API-anrop kräver en giltig JWT.
+- Skyddade API-anrop kräver en giltig JWT.
+- Servern ansvarar för den slutliga valideringen av inkommande data.
+- Klientvalidering används endast som ett komplement för bättre användarupplevelse.
 
-Servern ansvarar för den slutliga valideringen av inkommande data. Klientvalidering används endast som ett komplement för bättre användarupplevelse.
+---
 
 ## Deployment
 
-Administrationsgränssnittet publiceras separat från den publika webbplatsen.
+- Administrationsgränssnittet publiceras separat från den publika webbplatsen.
+- Administrationssidan körs som en separat webbapplikation och använder Zuprême Restaurant API som backend.
 
-Production:
-https://zupreme-restaurant-admin.sarasjodin.se/
-
-Administrationssidan körs som en separat webbapplikation och använder Zuprême Restaurant API som backend.
-
-
-API:
-https://zupreme-restaurant-api.sarasjodin.se/api
+---
 
 ## Versionshantering
 
@@ -240,8 +205,11 @@ Exempel:
 `feat/add-admin-authentication`
 `feat/add-menu-item-management`
 
+---
+
 ## Relaterade Zuprême-applikationer
 
-Publik webbplats: https://zupreme-restaurant.netlify.app/
-REST API: https://zupreme-restaurant-api.sarasjodin.se/
-Administration: https://zupreme-restaurant-admin.sarasjodin.se/
+- Publik webbplats: https://zupreme-restaurant.netlify.app/
+- REST API: https://zupreme-restaurant-api.sarasjodin.se/
+- Administration: https://zupreme-restaurant-admin.sarasjodin.se/
+
