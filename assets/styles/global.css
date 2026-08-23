@@ -282,6 +282,20 @@ footer .site-name {
   color: #ae3d1b;
 }
 
+#admin-status {
+  text-align: right;
+  padding-right: clamp(10rem, 20vw, 30rem);
+}
+
+#admin-status {
+  width: fit-content;
+  max-width: 100%;
+  margin-left: auto;
+  margin-top: 1rem;
+  margin-right: clamp(10rem, 20vw, 23rem);
+  padding: 0.6rem 1rem;
+}
+
 /* Not utilized yet, but can be used for warning messages in the future */
 
 /* .status-message.warning {

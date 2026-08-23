@@ -6,6 +6,7 @@
 
 import { authFetch } from './api.js';
 import { removeToken, redirectToLogin } from './auth.js';
+import { showMessage, clearMessage } from './statusMessages.js';
 
 // --------------------------------------------------
 // DOM elements
@@ -15,6 +16,26 @@ const logoutButton = document.querySelector('#logout-button');
 // Get all tab buttons and panels
 const tabs = document.querySelectorAll('[role="tab"]');
 const panels = document.querySelectorAll('[role="tabpanel"]');
+
+const categoryTables = {
+  Förrätter: document.querySelector('#menu-starters'),
+  Soppor: document.querySelector('#menu-soups'),
+  Varmrätter: document.querySelector('#menu-main'),
+  Efterrätter: document.querySelector('#menu-desserts'),
+  Drycker: document.querySelector('#menu-drinks')
+};
+
+// --------------------------------------------------
+// Kategoribilder
+// --------------------------------------------------
+
+const categoryImages = {
+  Förrätter: 'assets/images/menu-categories/forratt.webp',
+  Soppor: 'assets/images/menu-categories/soppa.webp',
+  Varmrätter: 'assets/images/menu-categories/varmratt.webp',
+  Efterrätter: 'assets/images/menu-categories/efterratt.webp',
+  Drycker: 'assets/images/menu-categories/dryck.webp'
+};
 
 // --------------------------------------------------
 // Authentication
@@ -38,18 +59,215 @@ async function init() {
       return;
     }
 
+    // Användaren är giltig och data om användaren finns i API:ts svar
     const data = await response.json();
+
+    // Visa admin-gränssnittet
     // Om användaren är giltig tas klassen "auth-pending" bort för att visa administrationsgränssnittet för användaren
     document.body.classList.remove('auth-pending');
 
-    // Nästa steg:
-    // await fetchMenuItems();
+    // Visa välkomstmeddelande med användarens namn
+    showMessage(
+      'admin-status',
+      `Inloggad som ${data.user.name}`,
+      'success',
+      true
+    );
 
-    // Om användaren inte är admin skickad den tillbaka till login
+    // Hämta alla menyartiklar
+    const menuItems = await fetchMenuItems();
+
+    if (menuItems === null) {
+      return;
+    }
+
+    // Rendera menyartiklarna.
+    renderMenuItems(menuItems);
   } catch (error) {
-    console.error(error);
+    console.error('Could not initialize admin:', error);
     redirectToLogin();
   }
+}
+
+// --------------------------------------------------
+// Menu API - hämta menyartiklar från API
+// --------------------------------------------------
+
+async function fetchMenuItems() {
+  showMessage('menu-status', 'Menyn hämtas...', 'loading');
+
+  try {
+    // Hämta alla menyartiklar, även de som inte är tillgängliga.
+    const response = await authFetch('/menu-items?include_unavailable=true');
+
+    // authFetch skickar användaren till login om token saknas
+    // eller inte längre är giltig.
+    if (!response) {
+      return null;
+    }
+
+    // fetch kastar inte automatiskt fel för t.ex. 404 eller 500.
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const menuItems = await response.json();
+
+    clearMessage('menu-status');
+
+    return menuItems;
+  } catch (error) {
+    console.error('Could not fetch menu items:', error);
+
+    showMessage(
+      'menu-status',
+      'Menyartiklarna kunde inte hämtas just nu.',
+      'error'
+    );
+
+    return null;
+  }
+}
+
+// --------------------------------------------------
+// Menu rendering - rendera menyartiklar i tabeller
+// --------------------------------------------------
+
+function renderMenuItems(menuItems) {
+  // Rensa tidigare menyartiklar.
+  Object.values(categoryTables).forEach((tableBody) => {
+    tableBody.replaceChildren();
+  });
+
+  if (menuItems.length === 0) {
+    showMessage('menu-status', 'Det finns inga menyartiklar att visa.', 'info');
+
+    return;
+  }
+
+  // Lägg varje menyartikel i rätt kategoritabell.
+  menuItems.forEach((item) => {
+    const tableBody = categoryTables[item.category_name];
+
+    if (!tableBody) {
+      return;
+    }
+
+    const row = createMenuItemRow(item);
+
+    tableBody.appendChild(row);
+  });
+}
+
+// --------------------------------------------------
+// Create menu item row - skapa tabellrad för en menyartikel
+// --------------------------------------------------
+
+function createMenuItemRow(item) {
+  const row = document.createElement('tr');
+
+  // Sorteringsposition
+  const positionCell = document.createElement('td');
+  positionCell.textContent = item.sort_order;
+
+  // Rättens namn, bild och beskrivning
+  const dishHeader = document.createElement('th');
+  dishHeader.setAttribute('scope', 'row');
+
+  const dish = document.createElement('div');
+  dish.className = 'dish';
+
+  const image = document.createElement('img');
+  image.src = categoryImages[item.category_name];
+  image.alt = '';
+
+  const dishContent = document.createElement('div');
+  dishContent.className = 'dish-content';
+
+  const name = document.createElement('span');
+  name.className = 'dish-name';
+  name.textContent = item.name;
+
+  const description = document.createElement('span');
+  description.className = 'dish-ingredients';
+  description.textContent = item.description ?? '';
+
+  dishContent.append(name, description);
+  dish.append(image, dishContent);
+  dishHeader.appendChild(dish);
+
+  // Servering
+  const servingCell = document.createElement('td');
+  servingCell.textContent = item.serving;
+
+  // Pris
+  const priceCell = document.createElement('td');
+  priceCell.textContent = `${Math.trunc(item.price)} kr`;
+
+  // Tillgänglighet
+  const availabilityCell = document.createElement('td');
+
+  const toggle = document.createElement('label');
+  toggle.className = 'toggle';
+
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.checked = item.is_available;
+  checkbox.setAttribute('aria-label', `Tillgänglig: ${item.name}`);
+
+  // Sparas för kommande PATCH-funktion.
+  checkbox.dataset.id = item.id;
+
+  const slider = document.createElement('span');
+  slider.className = 'slider';
+  slider.setAttribute('aria-hidden', 'true');
+
+  toggle.append(checkbox, slider);
+  availabilityCell.appendChild(toggle);
+
+  // Åtgärder
+  const actionsCell = document.createElement('td');
+
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+
+  const editButton = document.createElement('button');
+  editButton.type = 'button';
+  editButton.dataset.id = item.id;
+  editButton.setAttribute('aria-label', `Redigera ${item.name}`);
+
+  const editIcon = document.createElement('span');
+  editIcon.className = 'icon edit';
+  editIcon.setAttribute('aria-hidden', 'true');
+
+  editButton.appendChild(editIcon);
+
+  const deleteButton = document.createElement('button');
+  deleteButton.type = 'button';
+  deleteButton.className = 'cancel';
+  deleteButton.dataset.id = item.id;
+  deleteButton.setAttribute('aria-label', `Ta bort ${item.name}`);
+
+  const deleteIcon = document.createElement('span');
+  deleteIcon.className = 'icon delete';
+  deleteIcon.setAttribute('aria-hidden', 'true');
+
+  deleteButton.appendChild(deleteIcon);
+
+  actions.append(editButton, deleteButton);
+  actionsCell.appendChild(actions);
+
+  // Lägg till alla celler i rätt ordning.
+  row.append(
+    positionCell,
+    dishHeader,
+    servingCell,
+    priceCell,
+    availabilityCell,
+    actionsCell
+  );
+
+  return row;
 }
 
 // --------------------------------------------------
