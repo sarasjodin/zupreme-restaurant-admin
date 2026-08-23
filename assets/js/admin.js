@@ -4,8 +4,10 @@
  * och navigation mellan administrationssidans flikar
  */
 
+import { IMAGE_BASE_URL } from './config.js';
 import { authFetch } from './api.js';
 import { removeToken, redirectToLogin } from './auth.js';
+import { showMessage, clearMessage } from './statusMessages.js';
 
 // --------------------------------------------------
 // DOM elements
@@ -16,8 +18,90 @@ const logoutButton = document.querySelector('#logout-button');
 const tabs = document.querySelectorAll('[role="tab"]');
 const panels = document.querySelectorAll('[role="tabpanel"]');
 
+const categoryTables = {
+  Förrätter: document.querySelector('#menu-starters'),
+  Soppor: document.querySelector('#menu-soups'),
+  Varmrätter: document.querySelector('#menu-main'),
+  Efterrätter: document.querySelector('#menu-desserts'),
+  Drycker: document.querySelector('#menu-drinks')
+};
+
+const addMenuItemButton = document.querySelector('#add-menu-item-button');
+const menuItemForm = document.querySelector('#menu-item-form');
+const cancelMenuItemButton = document.querySelector('#cancel-menu-item-button');
+const menuItemFormTitle = document.querySelector('#menu-item-form-title');
+const menuItemSubmitButton = document.querySelector('#menu-item-submit-button');
+
+// ID för menyartikeln som redigeras
+// null betyder att formuläret används för att skapa en ny artikel
+let editingMenuItemId = null;
+
 // --------------------------------------------------
-// Authentication
+// Kategoribilder
+// --------------------------------------------------
+
+const categoryImages = {
+  Förrätter: 'assets/images/menu-categories/forratt.webp',
+  Soppor: 'assets/images/menu-categories/soppa.webp',
+  Varmrätter: 'assets/images/menu-categories/varmratt.webp',
+  Efterrätter: 'assets/images/menu-categories/efterratt.webp',
+  Drycker: 'assets/images/menu-categories/dryck.webp'
+};
+
+// --------------------------------------------------
+// Formulär för menyartiklar
+// --------------------------------------------------
+
+function showMenuItemForm() {
+  editingMenuItemId = null;
+  menuItemForm.reset();
+  menuItemFormTitle.textContent = 'Lägg till menyartikel';
+  menuItemSubmitButton.textContent = 'Spara';
+  menuItemForm.hidden = false;
+  addMenuItemButton.setAttribute('aria-expanded', 'true');
+}
+
+function showEditMenuItemForm(item) {
+  editingMenuItemId = item.id;
+
+  menuItemForm.elements.category_id.value = item.category_id;
+  menuItemForm.elements.name.value = item.name;
+  menuItemForm.elements.description.value = item.description ?? '';
+  menuItemForm.elements.serving.value = item.serving ?? '';
+  menuItemForm.elements.price.value = item.price;
+  menuItemForm.elements.sort_order.value = item.sort_order;
+  menuItemForm.elements.is_available.checked = Boolean(item.is_available);
+
+  menuItemFormTitle.textContent = 'Redigera menyartikel';
+  menuItemSubmitButton.textContent = 'Spara ändringar';
+
+  menuItemForm.hidden = false;
+  addMenuItemButton.setAttribute('aria-expanded', 'true');
+
+  menuItemForm.scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+
+  // Flytta fokus till fältet för kategorival när formuläret visas
+  menuItemForm.elements.category_id.focus();
+}
+
+function hideMenuItemForm() {
+  menuItemForm.hidden = true;
+  menuItemForm.reset();
+
+  // Återställ edit-läget så att formuläret nästa gång
+  // kan användas för att skapa en ny menyartikel
+  editingMenuItemId = null;
+  addMenuItemButton.setAttribute('aria-expanded', 'false');
+}
+
+addMenuItemButton.addEventListener('click', showMenuItemForm);
+cancelMenuItemButton.addEventListener('click', hideMenuItemForm);
+
+// --------------------------------------------------
+// Authentication - API-anrop med JWT-token
 // --------------------------------------------------
 
 // Kontrollera att användaren är inloggad och har en giltig JWT-token när sidan laddas
@@ -38,18 +122,499 @@ async function init() {
       return;
     }
 
+    // Användaren är giltig och data om användaren finns i API:ts svar
     const data = await response.json();
+
+    // Visa admin-gränssnittet
     // Om användaren är giltig tas klassen "auth-pending" bort för att visa administrationsgränssnittet för användaren
     document.body.classList.remove('auth-pending');
 
-    // Nästa steg:
-    // await fetchMenuItems();
+    // Visa välkomstmeddelande med användarens namn
+    showMessage(
+      'admin-status',
+      `Inloggad som ${data.user.name}`,
+      'success',
+      true
+    );
 
-    // Om användaren inte är admin skickad den tillbaka till login
+    // Hämta alla menyartiklar
+    const menuItems = await fetchMenuItems();
+
+    if (menuItems === null) {
+      return;
+    }
+
+    // Rendera menyartiklarna.
+    renderMenuItems(menuItems);
   } catch (error) {
-    console.error(error);
+    console.error('Could not initialize admin:', error);
     redirectToLogin();
   }
+}
+
+// --------------------------------------------------
+// Meny API - hämta menyartiklar från API
+// --------------------------------------------------
+
+async function fetchMenuItems() {
+  showMessage('menu-status', 'Menyn hämtas...', 'loading');
+
+  try {
+    // Hämta alla menyartiklar, även de som inte är tillgängliga.
+    const response = await authFetch('/menu-items?include_unavailable=true');
+
+    // authFetch skickar användaren till login om token saknas
+    // eller inte längre är giltig.
+    if (!response) {
+      return null;
+    }
+
+    // fetch kastar inte automatiskt fel för t.ex. 404 eller 500.
+    if (!response.ok) {
+      throw new Error(`HTTP error: ${response.status}`);
+    }
+
+    const menuItems = await response.json();
+
+    clearMessage('menu-status');
+
+    return menuItems;
+  } catch (error) {
+    console.error('Could not fetch menu items:', error);
+
+    showMessage(
+      'menu-status',
+      'Menyartiklarna kunde inte hämtas just nu.',
+      'error'
+    );
+
+    return null;
+  }
+}
+
+// --------------------------------------------------
+// Meny-API - skapa menyartikel
+// --------------------------------------------------
+
+async function createMenuItem(menuItem) {
+  try {
+    const response = await authFetch('/menu-items', {
+      method: 'POST',
+      body: JSON.stringify(menuItem)
+    });
+
+    if (!response) {
+      return null;
+    }
+
+    if (!response.ok) {
+      const data = await response.json();
+
+      showMessage(
+        'menu-status',
+        data.error ?? 'Menyartikeln kunde inte skapas.',
+        'error'
+      );
+
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Could not create menu item:', error);
+
+    showMessage('menu-status', 'Menyartikeln kunde inte skapas.', 'error');
+
+    return null;
+  }
+}
+
+// --------------------------------------------------
+// Meny-API - uppdatera menyartikel
+// --------------------------------------------------
+
+async function updateMenuItem(menuItemId, menuItem) {
+  try {
+    const response = await authFetch(`/menu-items/${menuItemId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(menuItem)
+    });
+
+    if (!response) {
+      return null;
+    }
+
+    if (!response.ok) {
+      const data = await response.json();
+
+      showMessage(
+        'menu-status',
+        data.error ?? 'Menyartikeln kunde inte uppdateras.',
+        'error'
+      );
+
+      return null;
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Could not update menu item:', error);
+
+    showMessage('menu-status', 'Menyartikeln kunde inte uppdateras.', 'error');
+
+    return null;
+  }
+}
+
+// --------------------------------------------------
+// Meny-API - ta bort menyartikel
+// --------------------------------------------------
+
+async function deleteMenuItem(menuItemId) {
+  try {
+    const response = await authFetch(`/menu-items/${menuItemId}`, {
+      method: 'DELETE'
+    });
+
+    if (!response) {
+      return false;
+    }
+
+    if (!response.ok) {
+      const data = await response.json();
+
+      showMessage(
+        'menu-status',
+        data.error ?? 'Menyartikeln kunde inte tas bort.',
+        'error'
+      );
+
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Could not delete menu item:', error);
+
+    showMessage('menu-status', 'Menyartikeln kunde inte tas bort.', 'error');
+
+    return false;
+  }
+}
+
+// --------------------------------------------------
+// Hantera borttagning av menyartikel
+// --------------------------------------------------
+
+async function handleDeleteMenuItem(item, confirmation) {
+  const deleted = await deleteMenuItem(item.id);
+
+  if (!deleted) {
+    return;
+  }
+
+  confirmation.remove();
+
+  const menuItems = await fetchMenuItems();
+
+  if (menuItems === null) {
+    return;
+  }
+
+  renderMenuItems(menuItems);
+
+  showMessage('menu-status', 'Menyartikeln togs bort.', 'success', true);
+}
+
+// --------------------------------------------------
+// Visa bekräftelse för borttagning
+// --------------------------------------------------
+
+function showDeleteConfirmation(item, deleteButton) {
+  // Ta bort eventuell tidigare bekräftelse.
+  const existingConfirmation = document.querySelector('.delete-confirmation');
+
+  if (existingConfirmation) {
+    existingConfirmation.remove();
+  }
+
+  const confirmation = document.createElement('div');
+  confirmation.className = 'delete-confirmation';
+
+  const message = document.createElement('p');
+  message.textContent = `Vill du verkligen ta bort "${item.name}"?`;
+
+  const actions = document.createElement('div');
+  actions.className = 'delete-confirmation-actions';
+
+  const cancelButton = document.createElement('button');
+  cancelButton.type = 'button';
+  cancelButton.className = 'secondary-button';
+  cancelButton.textContent = 'Avbryt';
+
+  const confirmButton = document.createElement('button');
+  confirmButton.type = 'button';
+  confirmButton.className = 'delete-button';
+  confirmButton.textContent = 'Ta bort';
+
+  actions.append(cancelButton, confirmButton);
+  confirmation.append(message, actions);
+
+  // Placera bekräftelsen direkt efter tabellen som innehåller delete-knappen
+  const table = deleteButton.closest('table');
+  table.insertAdjacentElement('afterend', confirmation);
+
+  // Flytta användaren till bekräftelsen om tabellen är lång
+  confirmation.scrollIntoView({
+    behavior: 'smooth',
+    block: 'nearest'
+  });
+
+  confirmButton.focus();
+
+  cancelButton.addEventListener('click', () => {
+    confirmation.remove();
+    deleteButton.focus();
+  });
+
+  confirmButton.addEventListener('click', () => {
+    handleDeleteMenuItem(item, confirmation);
+  });
+}
+
+// --------------------------------------------------
+// Hantera formulär för menyartiklar
+// --------------------------------------------------
+
+async function handleMenuItemSubmit(event) {
+  event.preventDefault();
+
+  // Skapa objektet som skickas till API:t från formulärets värden
+  const menuItem = {
+    category_id: Number(menuItemForm.elements.category_id.value),
+    name: menuItemForm.elements.name.value.trim(),
+    description: menuItemForm.elements.description.value.trim(),
+    serving: menuItemForm.elements.serving.value.trim(),
+    price: Number(menuItemForm.elements.price.value),
+    sort_order: Number(menuItemForm.elements.sort_order.value),
+    is_available: menuItemForm.elements.is_available.checked
+  };
+
+  let savedItem;
+
+  // Om inget ID finns skapas en ny menyartikel med POST
+  // Om ett ID finns uppdateras den befintliga artikeln med PATCH
+  if (editingMenuItemId === null) {
+    savedItem = await createMenuItem(menuItem);
+  } else {
+    savedItem = await updateMenuItem(editingMenuItemId, menuItem);
+  }
+
+  // Avbryt om API-anropet misslyckades
+  if (!savedItem) {
+    return;
+  }
+
+  // Spara vilket läge formuläret hade innan hideMenuItemForm()
+  // återställer editingMenuItemId till null
+  const wasEditing = editingMenuItemId !== null;
+
+  // Dölj och återställ formuläret efter lyckad sparning.
+  hideMenuItemForm();
+
+  // Hämta aktuell meny från API:t efter POST eller PATCH
+  const menuItems = await fetchMenuItems();
+
+  if (menuItems === null) {
+    return;
+  }
+
+  // Rendera om tabellerna med den uppdaterade datan
+  renderMenuItems(menuItems);
+
+  showMessage(
+    'menu-status',
+    wasEditing ? 'Menyartikeln uppdaterades.' : 'Menyartikeln skapades.',
+    'success',
+    true
+  );
+}
+
+menuItemForm.addEventListener('submit', handleMenuItemSubmit);
+
+// --------------------------------------------------
+// Menu rendering - rendera menyartiklar i tabeller
+// --------------------------------------------------
+
+function renderMenuItems(menuItems) {
+  // Rensa tidigare menyartiklar.
+  Object.values(categoryTables).forEach((tableBody) => {
+    tableBody.replaceChildren();
+  });
+
+  if (menuItems.length === 0) {
+    showMessage('menu-status', 'Det finns inga menyartiklar att visa.', 'info');
+
+    return;
+  }
+
+  // Lägg varje menyartikel i rätt kategoritabell.
+  menuItems.forEach((item) => {
+    const tableBody = categoryTables[item.category_name];
+
+    if (!tableBody) {
+      return;
+    }
+
+    const row = createMenuItemRow(item);
+
+    tableBody.appendChild(row);
+  });
+}
+
+// --------------------------------------------------
+// Create menu item row - skapa tabellrad för en menyartikel
+// --------------------------------------------------
+
+function createMenuItemRow(item) {
+  const row = document.createElement('tr');
+
+  // Sorteringsposition
+  const positionCell = document.createElement('td');
+  positionCell.textContent = item.sort_order;
+
+  // Rättens namn, bild och beskrivning
+  const dishHeader = document.createElement('th');
+  dishHeader.setAttribute('scope', 'row');
+
+  const dish = document.createElement('div');
+  dish.className = 'dish';
+
+  const image = document.createElement('img');
+  if (item.image_path) {
+    image.src = `${IMAGE_BASE_URL}${item.image_path}`;
+  } else {
+    image.src = categoryImages[item.category_name];
+  }
+
+  image.alt = '';
+
+  const dishContent = document.createElement('div');
+  dishContent.className = 'dish-content';
+
+  const name = document.createElement('span');
+  name.className = 'dish-name';
+  name.textContent = item.name;
+
+  const description = document.createElement('span');
+  description.className = 'dish-ingredients';
+  description.textContent = item.description ?? '';
+
+  dishContent.append(name, description);
+  dish.append(image, dishContent);
+  dishHeader.appendChild(dish);
+
+  // Servering
+  const servingCell = document.createElement('td');
+  servingCell.textContent = item.serving;
+
+  // Pris
+  const priceCell = document.createElement('td');
+  priceCell.textContent = `${Math.trunc(item.price)} kr`;
+
+  // Tillgänglighet
+  const availabilityCell = document.createElement('td');
+
+  const toggle = document.createElement('label');
+  toggle.className = 'toggle';
+
+  const checkbox = document.createElement('input');
+  checkbox.type = 'checkbox';
+  checkbox.checked = item.is_available;
+  checkbox.setAttribute('aria-label', `Tillgänglig: ${item.name}`);
+
+  // Uppdatera endast tillgänglighet med PATCH
+  // Checkboxen återställs om uppdatering misslyckas
+  // Patch hämtar id:t från item.id inte från checkbox.dataset.id
+  checkbox.addEventListener('change', async () => {
+    const newValue = checkbox.checked;
+
+    const updatedItem = await updateMenuItem(item.id, {
+      is_available: newValue
+    });
+
+    if (!updatedItem) {
+      checkbox.checked = !newValue;
+      return;
+    }
+
+    showMessage(
+      'menu-status',
+      'Tillgängligheten uppdaterades.',
+      'success',
+      true
+    );
+  });
+
+  const slider = document.createElement('span');
+  slider.className = 'slider';
+  slider.setAttribute('aria-hidden', 'true');
+
+  toggle.append(checkbox, slider);
+  availabilityCell.appendChild(toggle);
+
+  // Åtgärder
+  const actionsCell = document.createElement('td');
+
+  const actions = document.createElement('div');
+  actions.className = 'actions';
+
+  const editButton = document.createElement('button');
+  editButton.type = 'button';
+  editButton.dataset.id = item.id;
+
+  editButton.addEventListener('click', () => {
+    showEditMenuItemForm(item);
+  });
+
+  editButton.setAttribute('aria-label', `Redigera ${item.name}`);
+
+  const editIcon = document.createElement('span');
+  editIcon.className = 'icon edit';
+  editIcon.setAttribute('aria-hidden', 'true');
+
+  editButton.appendChild(editIcon);
+
+  const deleteButton = document.createElement('button');
+  deleteButton.type = 'button';
+  deleteButton.className = 'cancel';
+  deleteButton.dataset.id = item.id;
+  deleteButton.setAttribute('aria-label', `Ta bort ${item.name}`);
+
+  deleteButton.addEventListener('click', () => {
+    showDeleteConfirmation(item, deleteButton);
+  });
+
+  const deleteIcon = document.createElement('span');
+  deleteIcon.className = 'icon delete';
+  deleteIcon.setAttribute('aria-hidden', 'true');
+
+  deleteButton.appendChild(deleteIcon);
+
+  actions.append(editButton, deleteButton);
+  actionsCell.appendChild(actions);
+
+  // Lägg till alla celler i rätt ordning.
+  row.append(
+    positionCell,
+    dishHeader,
+    servingCell,
+    priceCell,
+    availabilityCell,
+    actionsCell
+  );
+
+  return row;
 }
 
 // --------------------------------------------------
@@ -70,7 +635,6 @@ logoutButton.addEventListener('click', handleLogout);
 
 // Aktiverar vald tab och visar den panel som tabben hör till.
 function activateTab(selectedTab) {
-  // Uppdatera ARIA-attribut och tabindex för de valda tabbarna
   tabs.forEach((tab) => {
     const isSelected = tab === selectedTab;
 
@@ -95,7 +659,7 @@ function moveToTab(index) {
   activateTab(tabs[index]);
 }
 
-// Lägg till event listeners för varje tab för klick och tangentbordsnavigeringn
+// Lägg till event listeners för klick och tangentbordsnavigering
 tabs.forEach((tab, index) => {
   // Byt aktiv tab när en tab klickas på
   tab.addEventListener('click', () => {

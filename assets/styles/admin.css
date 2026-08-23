@@ -287,6 +287,231 @@ tbody td {
   height: 24px;
 }
 
+/* --------------------------------------------------
+   MENU ITEM FORM BUTTONS
+-------------------------------------------------- */
+
+.primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: fit-content;
+  padding: 0.65rem 1.2rem;
+
+  border: 1px solid var(--gold);
+  border-radius: 0.4rem;
+
+  background-color: var(--gold);
+  color: #fff;
+
+  font: inherit;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: 0 0.2rem 0.5rem var(--shadow);
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.primary-button:hover {
+  background-color: #c3954f;
+  box-shadow: 0 0.3rem 0.7rem var(--shadow);
+}
+
+.primary-button:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 3px;
+}
+
+.primary-button:active {
+  transform: translateY(1px);
+}
+
+.secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0.65rem 1.2rem;
+
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+
+  background-color: transparent;
+  color: var(--text);
+
+  font: inherit;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  background-color: var(--bg);
+}
+
+.secondary-button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.delete-confirmation {
+  margin-top: 0.75rem;
+  padding: 1rem;
+
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+
+  box-shadow: 0 0.2rem 0.5rem var(--shadow);
+}
+
+.delete-confirmation p {
+  margin: 0 0 0.75rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.delete-confirmation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.delete-button {
+  padding: 0.65rem 1.2rem;
+
+  border: 1px solid var(--text);
+  border-radius: 0.4rem;
+
+  background-color: var(--text);
+  color: #fff;
+
+  font: inherit;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+/* --------------------------------------------------
+   MENU ITEM FORM
+-------------------------------------------------- */
+
+.menu-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.menu-heading h2 {
+  margin: 0;
+}
+
+.menu-item-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+
+  margin-bottom: 2rem;
+  padding: 1rem;
+
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+
+  box-shadow: 0 0.25rem 0.8rem var(--shadow);
+}
+
+/* Behåll formuläret dolt när hidden används. */
+.menu-item-form[hidden] {
+  display: none;
+}
+
+.menu-item-form h3 {
+  margin: 0;
+  padding-bottom: 0.75rem;
+
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem;
+}
+
+.form-group label {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+
+  border: 1px solid var(--border);
+  border-radius: 0.35rem;
+
+  background-color: var(--bg);
+  color: var(--text);
+
+  font: inherit;
+}
+
+.form-group textarea {
+  min-height: 7rem;
+  resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-color: var(--gold);
+}
+
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  padding-top: 0.5rem;
+}
+
+.form-actions .primary-button,
+.form-actions .secondary-button {
+  width: 100%;
+}
+
+#menu-available {
+  width: 1.1rem;
+  height: 1.1rem;
+
+  accent-color: var(--gold);
+  cursor: pointer;
+}
+
+.form-group label:has(#menu-available) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  width: fit-content;
+  cursor: pointer;
+}
+
 /* ==========================================================
    ROLE
    ========================================================== */
@@ -392,6 +617,35 @@ tbody td {
 .dish-ingredients {
   font-size: 0.9rem;
   color: var(--muted);
+}
+
+@media (min-width: 500px) {
+  .menu-item-form {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem 1.25rem;
+
+    padding: 1.25rem;
+  }
+
+  .form-group-name {
+    grid-column: span 2;
+  }
+
+  .menu-item-form h3,
+  .form-group-full,
+  .form-actions {
+    grid-column: 1 / -1;
+  }
+
+  .form-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .form-actions .primary-button,
+  .form-actions .secondary-button {
+    width: auto;
+  }
 }
 
 @media (max-width: 1100px) {
