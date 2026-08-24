@@ -4,14 +4,14 @@
 
 .login-form {
   display: grid;
-  justify-items: end;
-  padding: 5rem 0;
+  place-items: center;
+  padding: 2rem 1rem;
 }
 
 .login-section {
   width: min(100%, 420px);
-  margin: 0 4rem;
-  padding: 2rem;
+  margin: 0;
+  padding: 1.5rem;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 1rem;
@@ -23,7 +23,9 @@
    ========================================================== */
 
 .login-section h1 {
-  margin-bottom: 3.5rem;
+  margin-bottom: 2rem;
+  font-size: clamp(1.5rem, 7vw, 2rem);
+  line-height: 1.15;
   text-align: center;
 }
 
@@ -80,11 +82,11 @@
    LOGIN BUTTON
    ========================================================== */
 .index-button {
+  width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.6rem 1rem;
+  padding: 0.8rem 1rem;
   font: inherit;
   font-size: 1rem;
   color: var(--text);
@@ -102,4 +104,28 @@
 .index-button:focus-visible {
   outline: 2px solid var(--gold);
   outline-offset: 2px;
+}
+
+@media (max-width: 499px) {
+  .site-footer {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  .site-footer .footer-copy {
+    justify-self: start;
+    font-size: 0.8rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .login-form {
+    justify-items: end;
+    padding: 5rem 4rem;
+  }
+
+  .login-section {
+    padding: 2rem;
+  }
 }
