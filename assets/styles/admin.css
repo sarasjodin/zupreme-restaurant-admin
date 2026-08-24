@@ -155,52 +155,64 @@ tbody td {
 /* ==========================================================
    MENU TABLE
    ========================================================== */
-.menu th:first-child,
-.menu td:first-child {
-  width: 1%;
+.admin-table.menu {
+  width: 100%;
+  table-layout: fixed;
+}
+/* Pos. */
+.menu th:nth-child(1),
+.menu td:nth-child(1) {
+  width: 6%;
   white-space: nowrap;
   text-align: center;
   padding-inline: 0.5rem;
 }
 
+/* Rätt */
 .menu th:nth-child(2),
 .menu td:nth-child(2) {
-  min-width: 30%;
+  width: 42%;
   text-align: left;
   padding-inline-end: 1rem;
 }
 
-.menu th:nth-child(3),
-.menu td:nth-child(3),
-.menu th:nth-child(4),
-.menu td:nth-child(4),
-.menu th:nth-child(5),
-.menu td:nth-child(5),
-.menu th:nth-child(6),
-.menu td:nth-child(6) {
-  min-width: 8%;
-  white-space: nowrap;
-  text-align: center;
-}
-
+/* Servering */
 .menu th:nth-child(3),
 .menu td:nth-child(3) {
-  min-width: 15%;
+  width: 14%;
   text-align: left;
   padding-inline: 1rem;
 }
 
+/* Pris */
 .menu th:nth-child(4),
 .menu td:nth-child(4) {
+  width: 10%;
   text-align: left;
   padding-inline: 1rem;
 }
 
+/* Tillgänglig */
 .menu th:nth-child(5),
-.menu td:nth-child(5),
+.menu td:nth-child(5) {
+  width: 14%;
+  text-align: center;
+}
+
+/* Åtgärder */
 .menu th:nth-child(6),
 .menu td:nth-child(6) {
+  width: 14%;
   text-align: center;
+}
+
+.dish-content {
+  min-width: 0;
+}
+
+.dish-name,
+.dish-ingredients {
+  overflow-wrap: anywhere;
 }
 
 /* ==========================================================
