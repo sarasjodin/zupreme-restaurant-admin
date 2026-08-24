@@ -189,7 +189,10 @@ Admin frontend → Zuprême Restaurant API → Autentisering och validering → 
 
 - Administrationsgränssnittet publiceras separat från den publika webbplatsen.
 - Administrationssidan körs som en separat webbapplikation och använder Zuprême Restaurant API som backend.
-
+- Vid uppdateringar av `index.html` eller `admin.html` på VPS:en behöver admin-containern återskapas för att de nya filerna ska användas:
+```
+docker compose up -d --force-recreate admin
+```
 ---
 
 ## Versionshantering
